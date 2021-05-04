@@ -1,6 +1,7 @@
 import React from 'react';
 
 const LangSelect = (props) => {
+    // buttons should be replace by country flags.
     return (
         <div>
             <button onClick={(e) => props.handleLang(e)} name="catalan">Català</button>

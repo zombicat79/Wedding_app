@@ -1,70 +1,149 @@
-# Getting Started with Create React App
+## Description
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This app it's been designed as an adhoc tool to help my couple and me organize our wedding. Its main purpose is to get attendants engaged with the event, by providing them with an easy and playful way to participate and help shape it. Additionally, we plan to use it as a tool to prompt and facilitate the attendant's monetary contribution, so we can better track and manage expenditure. 
 
-## Available Scripts
+## Technologies
 
-In the project directory, you can run:
+- Base language: JavaScript
+- Front end libraries & frameworks: React.js, Material UI
+- Back end: Node.js + Express.js,
+- Online payment integration (Paypal?, Stripe?)
+- Spotify API
 
-### `npm start`
+## User stories / Features
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- **Restricted log in (via special predefined code):** The app IS NOT open to the general public, but only to the designated wedding attendees. As an *anonymous user* trying to access the app, the visitor will find a simple welcome page providing a rapid overview of its purpose, along with an authentication form. Operational credentials for wedding attendees are already preset (username & password) and stored in the database, then distributed to them at the moment of formal invitation.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
 
-### `npm test`
+  There is a generic authorized user created for testing and presentational purposes. For anyone interested to check out the app, it can be shared upon prior request.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- **Countdown chronometer:** There is a countdown chronometer immediately visible upon access to the app (big font close-up). It shows the days left until the event. After user interaction (click, scroll, keydown or any other similar event), it moves away to a corner of the screen and minimizes itself. Its appearance can vary depending on certain milestones being reached.
 
-### `npm run build`
+- **Bride & Groom quiz:** A *Trivial Pursuit*-like game centered on the protagonists of the event. Participants get asked questions about the bride and the groom and can test their knowledge about them both. Scores dependant on the amount of successful answers get stored in the database and used to determine a winner (or winners) of the quiz, who will then be presented with some sort of courtesy prize on the day of the celebration.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+  
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- **Filterable picture gallery:** A tool to showcase and celebrate the couple's life together and its highlights, either in the form of a picture board or a slideshow. It features a search bar and checkboxes aimed for sorting and filtering (all pictures are accordingly tagged), so as to facilitate the attendee's curiosity. 
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+  
 
-### `npm run eject`
+- **Wedding marketplace:** The app features a simulated ecommerce platform, displaying fantasy products and services that would help fulfill the couple's dreams. As in a traditional platform, the listed fake products and services (such a rocket journey to the Moon or a pet unicorn) are available for REAL purchase. They can be added to a shopping cart (wedding cart) and paid for via an online payment gateway. By default, all the money derived from the purchases is credited to the couple's account (as a form of gift or contribution to the event), except for those purchases linked to solidary causes or NGO projects, which instead revert on the favoured association.
+  
+- **Playlist creator:** By means of the Spotify API, this functionality allows the users to browse songs and add their favorites to the playlist of the wedding. This tool ensures the music played during the event will be relevant to everyone.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+- **Special requirements form:** A form to be filled out by the users in case they have special needs that must be adressed beforehand, such as food allergies or the need for lodging. The info gets stored in the database and acted upon accordingly.
+  
+- **Log out:** Easy peasy. Whenever users click on this option, they quit the app and get redirected to the main page as anonymous users.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Page / Component structure
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+### General Page Overview:
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+`<App>`
 
-## Learn More
+​	**`<HeaderNavbar />`** **!!!***
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+​		`<Home />`
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+​		`<Info />`
 
-### Code Splitting
+​		`<Quiz />`
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+​		`<Market />`
 
-### Analyzing the Bundle Size
+​		`<Requests />`
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+​	**`<FooterNavbar />`** **!!!***
 
-### Making a Progressive Web App
+`</App>`
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
 
-### Advanced Configuration
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+**!!!* These components only get rendered for registered users**
 
-### Deployment
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
 
-### `npm run build` fails to minify
+### Page Breakdown:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+#### HOME
+
+This is the main/landing page of the app. It presents its purpose at a glance and serves as the central hub for the app's navigation. It also summarizes key data & facts that get expanded in the rest of the sections, in a presentational manner:
+
+
+
+`<Home>`
+
+​	`<! --Fixed welcome & presentational content-- >`
+
+​	`<Countdown />`
+
+​	`<! --Unregistered entry warning-- >` 
+
+​			`||`
+
+​	``<! --Fixed welcome & presentational content-- >`` **!!!***
+
+​	`<ActivityMenu>` **!!!***
+
+`</Home>`
+
+
+
+**!!!* These components only get rendered for registered users**
+
+
+
+#### INFO
+
+A static page intented for providing information and directions about the date and place of the celebration:
+
+
+
+`<Info>`
+
+​	`<! --Information about place & time-- >`
+
+​	`<Carousel />`
+
+​	`<! --Description of the place of the celebration-- >` 
+
+​	`<Map />`
+
+​	``<! --Bride & groom contact information-- >``
+
+`</Info>`
+
+
+
+#### QUIZ
+
+#### MARKET
+
+#### REQUESTS
+
+
+
+#### Component Breakdown:
+
+#### - <HeaderNavbar />
+
+A... (pending)
+
+*Comprises:* <LangSelect />, <LogOut>, <ShoppingCart>
+
+#### - <FooterNavbar />
+
+A presentational component with no sub-components aimed at facilitating the navigation between the different pages that compose the app.
+
+#### - <LangSelect />
+
+This component manages language selection, through props received from the main component (<App />). It renders a set of buttons that alter the state of the main component and switch the language in which the whole app is displayed.
+
+#### - <Countdown />
+
+The purpose of this component is to establish the current date and calculate the days remaining until the wedding. It displays the countdown according to language selection.
+
+#### - <ActivityMenu />
+
+A simple presentational component serving as a call to action and containing links to the pages where users are supposed to take some action.
+
