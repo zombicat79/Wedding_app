@@ -6,13 +6,23 @@ class LangProvider extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            language: "nordic"
+            language: "spanish"
         }
+        this.handleLanguage = this.handleLanguage.bind(this);
+    }
+
+    handleLanguage(event) {
+        const { name } = event.target;
+        this.setState({ language: name });
     }
 
     render() {
+        const providerTools = {
+            properties: this.state,
+            methods: this.handleLanguage
+        }
         return (
-            <LangContext.Provider value={this.state}>
+            <LangContext.Provider value={providerTools}>
                 {this.props.children}
             </LangContext.Provider>
         )

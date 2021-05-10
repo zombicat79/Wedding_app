@@ -1,13 +1,20 @@
 import React from 'react';
+import { LangContext } from './../../context/lang-context';
 
 import LangSelect from './../../components/language_selector/LangSelect';
 
-function FooterNavbar(props) {
+function HeaderNavbar() {
     return (
-        <div>
-            <LangSelect lang={props.lang} handleLang={props.handleLang} />
-        </div>
+        <LangContext.Consumer>
+            {(value) => {
+                return (
+                    <div>
+                        <LangSelect lang={value.properties.language} handleLang={value.methods} />
+                    </div>  
+                )
+            }}
+        </LangContext.Consumer>
     )
 }
 
-export default FooterNavbar;
+export default HeaderNavbar;

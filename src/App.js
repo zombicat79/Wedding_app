@@ -3,8 +3,6 @@ import { Switch, Route } from 'react-router-dom';
 
 import HeaderNavbar from './components/header_navbar/HeaderNavbar';
 import FooterNavbar from './components/footer_navbar/FooterNavbar';
-import Countdown from './components/countdown/Countdown';
-import LangSelect from './components/language_selector/LangSelect';
 import Home from './pages/home/Home';
 import Info from './pages/info/Info';
 import Market from './pages/market/Market';
@@ -15,15 +13,8 @@ class App extends React.Component {
   constructor() {
     super();
     this.state = {
-      language: "catalan",
       userIsLoggedIn: true // needs to be updated dynamically once the backend is created.
     }
-    this.handleLanguage = this.handleLanguage.bind(this);
-  }
-
-  handleLanguage(event) {
-    const { name } = event.target;
-    this.setState({ language: name })
   }
   
   render() {
@@ -32,13 +23,13 @@ class App extends React.Component {
         {this.state.userIsLoggedIn && 
         <header>
           <nav>
-            <HeaderNavbar handleLang={this.handleLanguage} />
+            <HeaderNavbar />
           </nav>
         </header>
         }
         <>
           <Switch>
-            <Route exact path="/" render={(props) => (<Home lang={this.state.language} isLoggedIn={this.state.userIsLoggedIn} />)} />
+            <Route exact path="/" render={(props) => (<Home isLoggedIn={this.state.userIsLoggedIn} />)} />
             <Route exact path="/info" component={Info} />
             <Route exact path="/quiz" component={Quiz} />
             <Route exact path="/market" component={Market} />
@@ -48,7 +39,7 @@ class App extends React.Component {
         {this.state.userIsLoggedIn && 
         <footer>
           <nav>
-            <FooterNavbar lang={this.state.language} />
+            <FooterNavbar />
           </nav>
         </footer>
         }

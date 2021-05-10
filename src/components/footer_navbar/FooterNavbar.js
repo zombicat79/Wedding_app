@@ -1,33 +1,40 @@
 import React from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
+import { LangContext } from './../../context/lang-context';
 
 import logo from './logo192.png';
 
-function HeaderNavbar(props) {
+function FooterNavbar() {
     return (
-        //the img element in the "Home (/)" link needs a proper picture.
-        <div>
-            {props.lang === "catalan" && <NavLink to="/info">Informació</NavLink>}
-            {props.lang === "spanish" && <NavLink to="/info">Información</NavLink>}
-            {props.lang === "english" && <NavLink to="/info">Information</NavLink>}
+        <LangContext.Consumer>
+            {(value) => {
+                return (
+                    //the img element in the "Home (/)" link needs a proper picture.
+                    <div>
+                        {value.properties.language === "catalan" && <NavLink to="/info">Informació</NavLink>}
+                        {value.properties.language === "spanish" && <NavLink to="/info">Información</NavLink>}
+                        {value.properties.language === "english" && <NavLink to="/info">Information</NavLink>}
 
-            {props.lang === "catalan" && <NavLink to="/quiz">Joc</NavLink>}
-            {props.lang === "spanish" && <NavLink to="/quiz">Juego</NavLink>}
-            {props.lang === "english" && <NavLink to="/quiz">Game</NavLink>}
+                        {value.properties.language === "catalan" && <NavLink to="/quiz">Joc</NavLink>}
+                        {value.properties.language === "spanish" && <NavLink to="/quiz">Juego</NavLink>}
+                        {value.properties.language === "english" && <NavLink to="/quiz">Game</NavLink>}
 
-            <NavLink to="/">
-                <img src={logo} />    
-            </NavLink>
-            
-            {props.lang === "catalan" && <NavLink to="/market">Mercat</NavLink>}
-            {props.lang === "spanish" && <NavLink to="/market">Mercado</NavLink>}
-            {props.lang === "english" && <NavLink to="/market">Market</NavLink>}
+                        <NavLink to="/">
+                            <img src={logo} />    
+                        </NavLink>
+                        
+                        {value.properties.language === "catalan" && <NavLink to="/market">Mercat</NavLink>}
+                        {value.properties.language === "spanish" && <NavLink to="/market">Mercado</NavLink>}
+                        {value.properties.language === "english" && <NavLink to="/market">Market</NavLink>}
 
-            {props.lang === "catalan" && <NavLink to="/requests">Suggeriments</NavLink>}
-            {props.lang === "spanish" && <NavLink to="/requests">Sugerencias</NavLink>}
-            {props.lang === "english" && <NavLink to="/requests">Suggestions</NavLink>}
-        </div>
+                        {value.properties.language === "catalan" && <NavLink to="/requests">Suggeriments</NavLink>}
+                        {value.properties.language === "spanish" && <NavLink to="/requests">Sugerencias</NavLink>}
+                        {value.properties.language === "english" && <NavLink to="/requests">Suggestions</NavLink>}
+                    </div>
+                )
+            }}
+        </LangContext.Consumer>
     )
 }
 
-export default HeaderNavbar;
+export default FooterNavbar;
