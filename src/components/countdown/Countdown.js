@@ -9,7 +9,7 @@ class Countdown extends React.Component {
     };
 
     componentDidMount() {
-        const weddingDate = new Date(2022, 5, 24, 12, 0, 0, 0)
+        const weddingDate = new Date(2022, 5, 11, 12, 0, 0, 0)
         const presentDate = new Date();
 
         const remainingDays = ((weddingDate - presentDate) / 3600000) / 24;

@@ -5,6 +5,8 @@ import Countdown from './../../components/countdown/Countdown';
 import ActivityMenu from './../../components/activity_menu/ActivityMenu';
 
 function Home(props) {
+    // page needs to be complete with final texts and conditional rendering corresponding selected language.
+    // First text line must greet the user dynamically
     return (
         <LangContext.Consumer>
             {(value) => {
@@ -16,7 +18,12 @@ function Home(props) {
                         <Countdown lang={value.properties.language} />
                         {props.isLoggedIn && 
                         <section>
-                            <h1>Vine a celebrar amb nosaltres!</h1>
+                            <article>
+                                <h1>Vine a celebrar amb nosaltres!</h1>
+                            </article>
+                            <article>
+                                <ActivityMenu />
+                            </article>
                         </section>
                         }
                         {!props.isLoggedIn &&
@@ -24,9 +31,6 @@ function Home(props) {
                             <p>Please make sure you enter your code to access the app</p>
                         </section>
                         }
-                        <section>
-                            <ActivityMenu />
-                        </section>
                     </main>
                 )
             }}

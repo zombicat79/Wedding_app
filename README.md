@@ -101,15 +101,35 @@ A static page intented for providing information and directions about the date a
 
 `<Info>`
 
-​	`<! --Information about place & time-- >`
+​	`<ActivityMenu />`
 
-​	`<Carousel />`
+​	`<WhenInfo>`
 
-​	`<! --Description of the place of the celebration-- >` 
+​		`<! --Information about time-- >`
 
-​	`<Map />`
+​		`<Countdown />`
 
-​	``<! --Bride & groom contact information-- >``
+​	`</WhenInfo>`	
+
+​	`<WhereInfo>`
+
+​		`<! --Information about place-- >`
+
+​		`<Carousel />`
+
+​		`<! --Description of the place of the celebration-- >` 
+
+​		`<Map />`
+
+​	`</WhereInfo>`
+
+​	`<HowInfo>`
+
+​		`<Schedule />`
+
+​		``<! --Bride & groom contact information-- >``
+
+​	`</HowInfo>`
 
 `</Info>`
 
@@ -145,5 +165,5 @@ The purpose of this component is to establish the current date and calculate the
 
 #### - <ActivityMenu />
 
-A simple presentational component serving as a call to action and containing links to the pages where users are supposed to take some action.
+(pending refactoring) A simple presentational component serving as a call to action and containing links to the pages where users are supposed to take some action.
 

@@ -6,9 +6,9 @@ function ActivityMenu() {
         <>
             <h2>Coses que pots fer abans del gran dia</h2>
             <ul>
-                <li><Link to="/requests">Proposa'ns </Link></li>
-                <li><Link to="/market">Ajuda'ns</Link></li>
-                <li><Link to="/quiz">Juga</Link></li>
+                <li><Link to="/requests"><button>Proposa'ns</button></Link></li>
+                <li><Link to="/market"><button>Ajuda'ns</button></Link></li>
+                <li><Link to="/quiz"><button>Juga</button></Link></li>
             </ul>
         </>
     )
