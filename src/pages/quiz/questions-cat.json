@@ -1,0 +1,31 @@
+{
+    "questions": [
+        {
+            "_id": 1,
+            "proposition": "Com es diu el gat de la Cris i del David?",
+            "choice1": "Bandoler",
+            "choice2": "Zombi",
+            "choice3": "Cabrit",
+            "rightAnswer": "Zombi",
+            "points": 50 
+        }, 
+        {
+            "_id": 2,
+            "proposition": "De quin any és la Cris?",
+            "choice1": "1991",
+            "choice2": "1987",
+            "choice3": "1993",
+            "rightAnswer": "1991",
+            "points": 50
+        }, 
+        {
+            "_id": 3,
+            "proposition": "A quin país estranger a viscut el David?",
+            "choice1": "Estats Units",
+            "choice2": "Alemanya",
+            "choice3": "Regne Unit",
+            "rightAnswer": "Regne Unit",
+            "points": 50 
+        }
+    ]
+}

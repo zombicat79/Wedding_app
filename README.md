@@ -5,7 +5,7 @@ This app it's been designed as an adhoc tool to help my couple and me organize o
 ## Technologies
 
 - Base language: JavaScript
-- Front end libraries & frameworks: React.js, Material UI
+- Front end libraries & frameworks: React.js
 - Back end: Node.js + Express.js,
 - Online payment integration (Paypal?, Stripe?)
 - Spotify API
@@ -136,6 +136,46 @@ A static page intented for providing information and directions about the date a
 
 
 #### QUIZ
+
+A static page intented for providing information and directions about the date and place of the celebration:
+
+
+
+`<Quiz>`
+
+​	`<ActivityMenu />`
+
+​	`<WhenInfo>`
+
+​		`<! --Information about time-- >`
+
+​		`<Countdown />`
+
+​	`</WhenInfo>`	
+
+​	`<WhereInfo>`
+
+​		`<! --Information about place-- >`
+
+​		`<Carousel />`
+
+​		`<! --Description of the place of the celebration-- >` 
+
+​		`<Map />`
+
+​	`</WhereInfo>`
+
+​	`<HowInfo>`
+
+​		`<Schedule />`
+
+​		``<! --Bride & groom contact information-- >``
+
+​	`</HowInfo>`
+
+`</Quiz>`
+
+
 
 #### MARKET
 

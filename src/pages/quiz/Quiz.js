@@ -1,11 +1,35 @@
 import React from 'react';
+import { Link } from 'react-router-dom'
+import { LangContext } from './../../context/lang-context';
 
-function Quiz() {
+const Quiz = (props) => {
     return (
-        <div>
-            <h1>This is the quiz page</h1>
-        </div>
-    )
+        <LangContext.Consumer>
+            {(values) => {
+                return (
+                    <main>
+                            {props.state.gameStatus === "new" && 
+                            <section>
+                                <div>
+                                    <h2>Et proposem un joc... quant en saps de la Cris i del David?</h2>
+                                    <h1>Participa! Té premi!</h1>
+                                </div>
+                                <div>
+                                    <Link to={`/ingame/${props.state.user}`}><button>Comença!</button></Link>
+                                    <button>Veure estadístiques</button>
+                                </div>
+                            </section>
+                            }
+                            {props.state.gameStatus === "finished" &&
+                                <div>
+                                    <p>{`Molt bé! Has encertat ${props.state.rightAnswers} preguntes i has guanyat ${props.state.points} punts!`}</p>
+                                </div>
+                            }
+                    </main>
+                )
+            }}
+        </LangContext.Consumer>
+    )        
 }
 
 export default Quiz;
