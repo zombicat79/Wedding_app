@@ -8,6 +8,7 @@ import Info from './pages/info/Info';
 import Market from './pages/market/Market';
 import Quiz from './pages/quiz/Quiz';
 import InGame from './pages/quiz/InGame';
+import GameStats from './pages/quiz/GameStats';
 import Requests from './pages/requests/Requests';
 
 class App extends React.Component {
@@ -15,7 +16,7 @@ class App extends React.Component {
     super(props);
     this.state = {
       userIsLoggedIn: true, // needs to be updated dynamically once the backend is created.
-      user: "Paco",
+      user: "Josele",
       gameStatus: "new",
       rightAnswers: 2,
       points: 100
@@ -43,7 +44,8 @@ class App extends React.Component {
             <Route exact path="/" render={(props) => (<Home isLoggedIn={this.state.userIsLoggedIn} />)} />
             <Route exact path="/info" component={Info} />
             <Route exact path="/quiz" render={(props) => (<Quiz state={this.state} />)}/>
-            <Route path="/ingame" render={(props) => (<InGame toggleGame={this.handleGameStatus} />)} />
+            <Route path="/ingame/:id" render={(props) => (<InGame {...props } toggleGame={this.handleGameStatus} />)} />
+            <Route path="/gamestats/:id" render={(props) => <GameStats {...props} />} component={GameStats}/>
             <Route exact path="/market" component={Market} />
             <Route exact path="/requests" component={Requests} />
           </Switch>

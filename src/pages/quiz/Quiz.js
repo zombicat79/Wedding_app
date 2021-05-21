@@ -16,7 +16,7 @@ const Quiz = (props) => {
                                 </div>
                                 <div>
                                     <Link to={`/ingame/${props.state.user}`}><button>Comença!</button></Link>
-                                    <button>Veure estadístiques</button>
+                                    <Link to={`/gamestats/${props.state.user}`}><button>Veure estadístiques</button></Link>
                                 </div>
                             </section>
                             }
