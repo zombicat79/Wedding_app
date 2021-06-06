@@ -5,7 +5,7 @@ import { LangContext } from './../../context/lang-context';
 const Quiz = (props) => {
     return (
         <LangContext.Consumer>
-            {(values) => {
+            {(value) => {
                 return (
                     <main>
                             {props.state.gameStatus === "new" && 

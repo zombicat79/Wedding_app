@@ -107,15 +107,15 @@ class App extends React.Component {
         }
         <>
           <Switch>
-            <Route exact path="/" render={(props) => (<Home isLoggedIn={this.state.userIsLoggedIn} />)} />
-            <Route exact path="/info" component={Info} />
+            <Route exact path="/" render={(props) => <Home {...props} isLoggedIn={this.state.userIsLoggedIn} />} />
+            <Route exact path="/info" render={(props) => <Info {...props} />} />
             <Route exact path="/quiz" render={(props) => (<Quiz state={this.state} />)}/>
             <Route path="/ingame/:id" render={(props) => (<InGame {...props } toggleGame={this.handleGameStatus} />)} />
             <Route path="/gamestats/:id" render={(props) => <GameStats {...props} />} component={GameStats}/>
             <Route exact path="/market" render={(props) => <Market {...props} addToCart={this.addToCart} cartItems={this.state.cartItems} />} />
             <Route exact path="/checkout" render={(props) => <Checkout {...props} cartItems={this.state.cartItems} 
               addToCart={this.addToCart} removeFromCart={this.removeFromCart} />} />
-            <Route exact path="/requests" component={Requests} />
+            <Route exact path="/requests" render={(props) => <Requests {...props} />} />
           </Switch>
         </>
         {this.state.userIsLoggedIn && 

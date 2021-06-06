@@ -7,6 +7,7 @@ import ActivityMenu from './../../components/activity_menu/ActivityMenu';
 function Home(props) {
     // page needs to be complete with final texts and conditional rendering corresponding selected language.
     // First text line must greet the user dynamically
+    
     return (
         <LangContext.Consumer>
             {(value) => {
@@ -22,7 +23,7 @@ function Home(props) {
                                 <h1>Vine a celebrar amb nosaltres!</h1>
                             </article>
                             <article>
-                                <ActivityMenu />
+                                <ActivityMenu {...props} />
                             </article>
                         </section>
                         }

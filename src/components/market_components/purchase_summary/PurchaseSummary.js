@@ -20,7 +20,7 @@ const PurchaseSummary = (props) => {
     
     return (
         <article>
-            <div>
+            {(props.match.path === "/checkout" || cost > 0) && <div>
                 <h2>You are acquiring...</h2>
                 <ul>
                     {prepurchaseItems.map((el) => {
@@ -39,8 +39,8 @@ const PurchaseSummary = (props) => {
                     })}
                 </ul>
                 <h3>Total cost: {cost}€</h3>                
-            </div>
-            {props.match.path === "/market" &&
+            </div>}
+            {(props.match.path === "/market" && cost !== 0) &&
             <div>
                 <Link to="/checkout"><button>Proceed to checkout</button></Link>
             </div>

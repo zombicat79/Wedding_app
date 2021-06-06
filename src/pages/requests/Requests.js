@@ -1,10 +1,20 @@
 import React from 'react';
+import { LangContext } from './../../context/lang-context';
 
-function Requests() {
+import ActivityMenu from './../../components/activity_menu/ActivityMenu';
+
+function Requests(props) {
     return (
-        <div>
-            <h1>This is the requests page</h1>
-        </div>
+        <LangContext.Consumer>
+            {(value) => {
+                return (
+                    <main>
+                        <h1>This is the requests page</h1>
+                        <ActivityMenu {...props} />
+                    </main>
+                )
+            }}
+        </LangContext.Consumer>
     )
 }
 
