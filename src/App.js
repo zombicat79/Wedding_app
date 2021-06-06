@@ -16,13 +16,13 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      userIsLoggedIn: true, // needs to be updated dynamically once the backend is created.
-      user: "Josele",
+      userIsLoggedIn: true, // *** needs to be updated dynamically once the backend is created. ***
+      user: "Josele", // *** needs to be updated dynamically once the backend is created. ***
       gameStatus: "new",
-      rightAnswers: 2,
-      points: 100,
-      productsInCart: false,
-      cartItems: {}
+      rightAnswers: 2, // *** needs to be updated dynamically once the backend is created. ***
+      points: 100, // *** needs to be updated dynamically once the backend is created. ***
+      productsInCart: false, // *** needs to be updated dynamically once the backend is created. ***
+      cartItems: {} // *** needs to be updated dynamically once the backend is created. ***
     }
     this.handleGameStatus = this.handleGameStatus.bind(this);
     this.handleCartStatus = this.handleCartStatus.bind(this);
@@ -62,18 +62,38 @@ class App extends React.Component {
     }
   }
 
-  /* componentDidUpdate() {
-    let check = []
-    for(const key in this.state.cartItems) {
-      if (this.state.cartItems[key] === 0) {
-        check.push(0);
+  componentDidUpdate(prevProps, prevState) {
+    /* Code below compares the present presence of items in the cart with the presence of items at the 
+    moment immediately before. If the comparison establishes the cart has just been emptied, then setState
+    is called and the cart labelled as empty (pending: try to abstract lengthy chunk of code into a function) */
+    
+    let cartCheck = [];
+    for(const item in this.state.cartItems) {
+      if (this.state.cartItems[item] === 0) {
+        cartCheck.push(0);
       }
       else {
-        check.push(1);
+        cartCheck.push(1);
       }
     }
-    check.reduce((acc, current) => acc + current) === 0 ? this.handleCartStatus(false) : console.log("hello");
-  } */
+
+    let prevCartCheck = [];
+    for (const item in prevState.cartItems) {
+      if (prevState.cartItems[item] === 0) {
+        prevCartCheck.push(0);
+      }
+      else {
+        prevCartCheck.push(1);
+      }      
+    }
+
+    const reducedCheck = cartCheck.reduce((acc, current) => acc + current);
+    const reducedPrevCheck = prevCartCheck.reduce((acc, current) => acc + current, 0);
+
+    if (reducedCheck === 0 && reducedPrevCheck === 1) {
+      this.setState({ productsInCart: false });
+    }
+  }
   
   render() {
     return (
