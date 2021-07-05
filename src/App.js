@@ -11,12 +11,13 @@ import InGame from './pages/quiz/InGame';
 import GameStats from './pages/quiz/GameStats';
 import Requests from './pages/requests/Requests';
 import Checkout from './pages/checkout/Checkout';
+import Unlogged from './pages/unlogged/Unlogged';
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      userIsLoggedIn: true, // *** needs to be updated dynamically once the backend is created. ***
+      userIsLoggedIn: false, // *** needs to be updated dynamically once the backend is created. ***
       user: "Josele", // *** needs to be updated dynamically once the backend is created. ***
       gameStatus: "new",
       rightAnswers: 2, // *** needs to be updated dynamically once the backend is created. ***
@@ -116,6 +117,7 @@ class App extends React.Component {
             <Route exact path="/checkout" render={(props) => <Checkout {...props} cartItems={this.state.cartItems} 
               addToCart={this.addToCart} removeFromCart={this.removeFromCart} />} />
             <Route exact path="/requests" render={(props) => <Requests {...props} />} />
+            <Route exact path="/unlogged" render={(props) => <Unlogged {...props} />} />
           </Switch>
         </>
         {this.state.userIsLoggedIn && 
