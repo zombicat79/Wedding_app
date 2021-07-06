@@ -7,6 +7,8 @@ import spanish from './../../images/icons/spanish.jpeg';
 import english from './../../images/icons/english.png';
 import rings from './../../images/icons/rings.png';
 
+import texts from './../../texts/texts';
+
 class Unlogged extends React.Component {
     constructor(props) {
         super(props);
@@ -14,6 +16,7 @@ class Unlogged extends React.Component {
             username: "",
             password: "",
             language: "",
+            display: false,
             message: ""
         }
     }
@@ -23,7 +26,7 @@ class Unlogged extends React.Component {
         this.setState({ [name]: value });
     }
 
-    handleSubmit = (event) => {
+    handleSubmit = (event, handleGlobalLanguage) => {
         event.preventDefault()
         const { username, password } = this.state;
 
@@ -33,7 +36,9 @@ class Unlogged extends React.Component {
                     this.setState({ message: response.message });
                 }
                 else {
-                    console.log(response);
+                    handleGlobalLanguage(this.state.language);
+                    this.props.handleUsers(response);
+                    this.props.history.replace("/");
                 }
             })
             .catch((err) => console.log(err));
@@ -41,7 +46,7 @@ class Unlogged extends React.Component {
 
     handleLanguage = (event) => {
         const { name } = event.target;
-        this.setState({ language: name });
+        this.setState({ language: name, display: true });
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -55,35 +60,7 @@ class Unlogged extends React.Component {
             <LangContext.Consumer>
                 {(value) => {
                     const { language } = this.state;
-                    const text = {
-                        greeting: {
-                            cat: "Benvinguts a la Festa Major de la Cristina i del David",
-                            esp: "Bienvenidos a la Fiesta Mayor de Cristina y David",
-                            eng: "Welcome to Cristina & David's Party of a Lifetime"
-                        },
-                        prompt: {
-                            cat: "Si sou aquí segur que és perquè us coneixem i us estimem, però tot i així necessitem que us identifiqueu.",
-                            esp: "Si habéis llegado hasta aquí seguro que es porque os conocemos y os queremos, pero necesitamos que os identfiquéis",
-                            eng: "If you ended up here surely it is because we know you and love you, but we still require you to identify yourself",
-                        },
-                        form: {
-                            cat: {
-                                username: "Nom d'usuari: ",
-                                password: "Contrasenya: ",
-                                button: "Deixeu-me entrar!"
-                            },
-                            esp: {
-                                username: "Nombre de usuario: ",
-                                password: "Contraseña: ",
-                                button: "Dejadme entrar!"
-                            },
-                            eng: {
-                                username: "Username: ",
-                                password: "Password: ",
-                                button: "Let me in!"
-                            }
-                        }
-                    };
+                    const handleGlobalLanguage = value.methods;
                     
                     return (
                         <main>
@@ -96,33 +73,40 @@ class Unlogged extends React.Component {
                                     <img src={spanish} onClick={(e) => this.handleLanguage(e)} width="50" alt="Spanish flag" name="spanish" />
                                     <img src={english} onClick={(e) => this.handleLanguage(e)} width="44" alt="UK flag" name="english" />
                                 </div>
+                                { this.state.display === true &&
                                 <div>
                                     <h1>
-                                        {language === "catalan" ? text.greeting.cat : language === "spanish" ? text.greeting.esp : text.greeting.eng}
+                                        {language === "catalan" ? texts.unloggedGreeting.cat : language === "spanish" ? texts.unloggedGreeting.esp : texts.unloggedGreeting.eng}
                                     </h1>
                                     <p>
-                                        {language === "catalan" ? text.prompt.cat : language === "spanish" ? text.prompt.esp : text.prompt.eng}  
+                                        {language === "catalan" ? texts.unloggedPrompt.cat : language === "spanish" ? texts.unloggedPrompt.esp : texts.unloggedPrompt.eng}  
+                                    </p>
+                                    <p>
+                                        {language === "catalan" ? texts.unloggedInstructions.cat : language === "spanish" ? texts.unloggedInstructions.esp : texts.unloggedInstructions.eng}  
                                     </p>  
                                 </div>
+                                }
                             </section>
+                            { this.state.display === true &&
                             <section>
-                                <form onSubmit={(e) => this.handleSubmit(e)}>
+                                <form onSubmit={(e) => this.handleSubmit(e, handleGlobalLanguage)}>
                                     <label htmlFor="username-input">
-                                        <strong>{language === "catalan" ? text.form.cat.username : language === "spanish" ? text.form.esp.username : text.form.eng.username}</strong>
+                                        <strong>{language === "catalan" ? texts.unloggedForm.cat.username : language === "spanish" ? texts.unloggedForm.esp.username : texts.unloggedForm.eng.username}</strong>
                                     </label>
                                     <input id="username-input" type="text" name="username" 
                                            onChange={(e) => this.handleChange(e)} value={this.state.username} />
     
                                     <label htmlFor="password-input">
-                                        <strong>{language === "catalan" ? text.form.cat.password : language === "spanish" ? text.form.esp.password : text.form.eng.password} </strong>
+                                        <strong>{language === "catalan" ? texts.unloggedForm.cat.password : language === "spanish" ? texts.unloggedForm.esp.password : texts.unloggedForm.eng.password} </strong>
                                     </label>
                                     <input id="password-input" type="password" name="password" 
                                            onChange={(e) => this.handleChange(e)} value={this.state.password} />
     
-                                    <input type="submit" value={language === "catalan" ? text.form.cat.button : language === "spanish" ? text.form.esp.button : text.form.eng.button}  />
+                                    <input type="submit" value={language === "catalan" ? texts.unloggedForm.cat.button : language === "spanish" ? texts.unloggedForm.esp.button : texts.unloggedForm.eng.button}  />
                                 </form>
                                 {this.state.message && <p>{this.state.message}</p>}
                             </section>
+                            }
                             <section>
                                 <div>
                                     <img src={rings} width="100" alt="Wedding rings" />   

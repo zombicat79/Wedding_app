@@ -12,8 +12,13 @@ class LangProvider extends React.Component {
     }
 
     handleLanguage(event) {
-        const { name } = event.target;
-        this.setState({ language: name });
+        if (event.target) {
+            const { name } = event.target;
+            this.setState({ language: name }); 
+        }
+        else {
+            this.setState({ language: event });
+        }
     }
 
     render() {

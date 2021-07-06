@@ -13,6 +13,12 @@ class AuthService {
             .then((response) => response.data);
         return pr;
     }
+
+    getUser() {
+        const pr = this.auth.get('me')
+            .then((response) => response.data);
+        return pr;
+    }
 };
 
 const authService = new AuthService();

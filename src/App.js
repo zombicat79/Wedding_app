@@ -1,5 +1,6 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
+import authService from './services/auth-service';
 
 import HeaderNavbar from './components/header_navbar/HeaderNavbar';
 import FooterNavbar from './components/footer_navbar/FooterNavbar';
@@ -17,20 +18,24 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      userIsLoggedIn: false, // *** needs to be updated dynamically once the backend is created. ***
-      user: "Josele", // *** needs to be updated dynamically once the backend is created. ***
+      user: null,
       gameStatus: "new",
       rightAnswers: 2, // *** needs to be updated dynamically once the backend is created. ***
       points: 100, // *** needs to be updated dynamically once the backend is created. ***
       productsInCart: false, // *** needs to be updated dynamically once the backend is created. ***
       cartItems: {} // *** needs to be updated dynamically once the backend is created. ***
     }
+    this.handleUsers = this.handleUsers.bind(this);
     this.handleGameStatus = this.handleGameStatus.bind(this);
     this.handleCartStatus = this.handleCartStatus.bind(this);
     this.addToCart = this.addToCart.bind(this);
     this.removeFromCart = this.removeFromCart.bind(this);
   }
 
+  handleUsers(loggedInUser) {
+    this.setState({ user: loggedInUser });
+  }
+  
   handleGameStatus() {
     this.setState({ gameStatus: "finished"});
     setTimeout(() => this.setState({ gameStatus: "new"}), 10000);
@@ -63,6 +68,18 @@ class App extends React.Component {
     }
   }
 
+  componentDidMount() {
+    authService.getUser()
+      .then((loggedInUser) => {
+        if (loggedInUser) {
+          this.setState({ user: loggedInUser });
+        }
+        else {
+          this.setState({ user: null });
+        }
+      })
+  }
+
   componentDidUpdate(prevProps, prevState) {
     /* Code below compares the present presence of items in the cart with the presence of items at the 
     moment immediately before. If the comparison establishes the cart has just been emptied, then setState
@@ -88,7 +105,7 @@ class App extends React.Component {
       }      
     }
 
-    const reducedCheck = cartCheck.reduce((acc, current) => acc + current);
+    const reducedCheck = cartCheck.reduce((acc, current) => acc + current, 0);
     const reducedPrevCheck = prevCartCheck.reduce((acc, current) => acc + current, 0);
 
     if (reducedCheck === 0 && reducedPrevCheck === 1) {
@@ -97,9 +114,11 @@ class App extends React.Component {
   }
   
   render() {
+    const Main = !this.state.user ? Unlogged : Home; 
+    
     return (
       <>
-        {this.state.userIsLoggedIn && 
+        {this.state.user && 
         <header>
           <nav>
             <HeaderNavbar productsInCart={this.state.productsInCart} />
@@ -108,7 +127,7 @@ class App extends React.Component {
         }
         <>
           <Switch>
-            <Route exact path="/" render={(props) => <Home {...props} isLoggedIn={this.state.userIsLoggedIn} />} />
+            <Route exact path="/" render={(props) => <Main {...props} isLoggedIn={this.state.user} handleUsers={this.handleUsers} />} />
             <Route exact path="/info" render={(props) => <Info {...props} />} />
             <Route exact path="/quiz" render={(props) => (<Quiz state={this.state} />)}/>
             <Route path="/ingame/:id" render={(props) => (<InGame {...props } toggleGame={this.handleGameStatus} />)} />
@@ -117,10 +136,9 @@ class App extends React.Component {
             <Route exact path="/checkout" render={(props) => <Checkout {...props} cartItems={this.state.cartItems} 
               addToCart={this.addToCart} removeFromCart={this.removeFromCart} />} />
             <Route exact path="/requests" render={(props) => <Requests {...props} />} />
-            <Route exact path="/unlogged" render={(props) => <Unlogged {...props} />} />
           </Switch>
         </>
-        {this.state.userIsLoggedIn && 
+        {this.state.user && 
         <footer>
           <nav>
             <FooterNavbar />
