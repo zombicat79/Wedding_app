@@ -34,4 +34,4 @@ class LangProvider extends React.Component {
     }
 }
 
-export { LangContext, LangProvider};
+export { LangContext, LangProvider };

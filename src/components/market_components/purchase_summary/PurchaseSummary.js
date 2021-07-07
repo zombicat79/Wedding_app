@@ -7,8 +7,8 @@ const PurchaseSummary = (props) => {
     
     let prepurchaseItems = [];
     for (const item in props.cartItems) {
-        for (const element of fakeProducts) {
-            if (item === element.title) {
+        for (const element of props.products) {
+            if (item === element.name.cat || item === element.name.esp || item === element.name.eng) {
                 prepurchaseItems.push({item: item, num: props.cartItems[item], price: element.price})
             }
         }

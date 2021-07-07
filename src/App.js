@@ -24,6 +24,7 @@ class App extends React.Component {
       rightAnswers: 2, // *** needs to be updated dynamically once the backend is created. ***
       points: 100, // *** needs to be updated dynamically once the backend is created. ***
       productsInCart: false, // *** needs to be updated dynamically once the backend is created. ***
+      availableProducts: [],
       cartItems: {} // *** needs to be updated dynamically once the backend is created. ***
     }
     this.handleUsers = this.handleUsers.bind(this);
@@ -31,6 +32,7 @@ class App extends React.Component {
     this.handleCartStatus = this.handleCartStatus.bind(this);
     this.addToCart = this.addToCart.bind(this);
     this.removeFromCart = this.removeFromCart.bind(this);
+    this.updateProducts = this.updateProducts.bind(this);
   }
 
   handleUsers(loggedInUser) {
@@ -44,6 +46,10 @@ class App extends React.Component {
 
   handleCartStatus(status) {
     this.setState({ productsInCart: status });
+  }
+
+  updateProducts(productList) {
+    this.setState({ availableProducts: productList });
   }
 
   addToCart(item) {
@@ -130,13 +136,14 @@ class App extends React.Component {
         <>
           <Switch>
             <Route exact path="/" render={(props) => <Main {...props} isLoggedIn={this.state.user} handleUsers={this.handleUsers} />} />
-            <Route exact path="/info" render={(props) => <Info {...props} />} />
-            <Route exact path="/quiz" render={(props) => (<Quiz state={this.state} />)}/>
+            <Route exact path="/info" render={(props) => <Info {...props} handleUsers={this.handleUsers} />} />
+            <Route exact path="/quiz" render={(props) => <Quiz {...props} state={this.state} />} />
             <Route path="/ingame/:id" render={(props) => (<InGame {...props } toggleGame={this.handleGameStatus} />)} />
             <Route path="/gamestats/:id" render={(props) => <GameStats {...props} />} component={GameStats}/>
-            <Route exact path="/market" render={(props) => <Market {...props} addToCart={this.addToCart} cartItems={this.state.cartItems} />} />
+            <Route exact path="/market" render={(props) => <Market {...props} addToCart={this.addToCart} cartItems={this.state.cartItems} 
+              updateProducts={this.updateProducts} products={this.state.availableProducts} />} />
             <Route exact path="/checkout" render={(props) => <Checkout {...props} cartItems={this.state.cartItems} 
-              addToCart={this.addToCart} removeFromCart={this.removeFromCart} />} />
+              addToCart={this.addToCart} removeFromCart={this.removeFromCart} products={this.state.availableProducts} />} />
             <Route exact path="/requests" render={(props) => <Requests {...props} />} />
             <Route path="/profile/:userId" render={(props) => <Profile {...props} user={this.state.user} handleUsers={this.handleUsers} />} />
           </Switch>
