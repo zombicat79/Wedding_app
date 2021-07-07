@@ -9,11 +9,16 @@ function HeaderNavbar(props) {
         <LangContext.Consumer>
             {(value) => {
                 return (
-                    <div>
-                        <LangSelect lang={value.properties.language} handleLang={value.methods} />
-                        {props.productsInCart === true && <Link to="/checkout">Items in cart</Link>}
-                        {props.productsInCart === false && <p>Empty cart</p>}
-                    </div>  
+                    <React.Fragment>
+                        <div>
+                            <LangSelect lang={value.properties.language} handleLang={value.methods} />
+                            {props.productsInCart === true && <Link to="/checkout">Items in cart</Link>}
+                            {props.productsInCart === false && <p>Empty cart</p>}
+                        </div>
+                        <div>
+                            <Link to={`/profile/${props.user._id}`}>Profile</Link>
+                        </div>
+                    </React.Fragment>
                 )
             }}
         </LangContext.Consumer>

@@ -13,6 +13,7 @@ import GameStats from './pages/quiz/GameStats';
 import Requests from './pages/requests/Requests';
 import Checkout from './pages/checkout/Checkout';
 import Unlogged from './pages/unlogged/Unlogged';
+import Profile from './pages/profile/Profile';
 
 class App extends React.Component {
   constructor(props) {
@@ -78,6 +79,7 @@ class App extends React.Component {
           this.setState({ user: null });
         }
       })
+      .catch((err) => console.log(err));
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -114,14 +116,14 @@ class App extends React.Component {
   }
   
   render() {
-    const Main = !this.state.user ? Unlogged : Home; 
+    const Main = !this.state.user ? Unlogged : Home;
     
     return (
       <>
         {this.state.user && 
         <header>
           <nav>
-            <HeaderNavbar productsInCart={this.state.productsInCart} />
+            <HeaderNavbar productsInCart={this.state.productsInCart} user={this.state.user} />
           </nav>
         </header>
         }
@@ -136,6 +138,7 @@ class App extends React.Component {
             <Route exact path="/checkout" render={(props) => <Checkout {...props} cartItems={this.state.cartItems} 
               addToCart={this.addToCart} removeFromCart={this.removeFromCart} />} />
             <Route exact path="/requests" render={(props) => <Requests {...props} />} />
+            <Route path="/profile/:userId" render={(props) => <Profile {...props} user={this.state.user} handleUsers={this.handleUsers} />} />
           </Switch>
         </>
         {this.state.user && 

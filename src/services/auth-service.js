@@ -14,6 +14,10 @@ class AuthService {
         return pr;
     }
 
+    logout() {
+        return this.auth.get('logout');
+    }
+
     getUser() {
         const pr = this.auth.get('me')
             .then((response) => response.data);
