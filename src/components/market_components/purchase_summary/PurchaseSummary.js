@@ -1,8 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import fakeProducts from './../../../FakeProducts';
-
 const PurchaseSummary = (props) => {
     
     let prepurchaseItems = [];

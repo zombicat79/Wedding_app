@@ -1,6 +1,7 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import authService from './services/auth-service';
+import userService from './services/user-service';
 
 import HeaderNavbar from './components/header_navbar/HeaderNavbar';
 import FooterNavbar from './components/footer_navbar/FooterNavbar';
