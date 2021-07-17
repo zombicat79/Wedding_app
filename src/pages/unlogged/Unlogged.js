@@ -1,13 +1,14 @@
 import React from 'react';
 import { LangContext } from './../../context/lang-context';
 import authService from './../../services/auth-service';
+import userService from './../../services/user-service';
 
 import catalan from './../../images/icons/catalan.jpeg';
 import spanish from './../../images/icons/spanish.jpeg';
 import english from './../../images/icons/english.png';
 import rings from './../../images/icons/rings.png';
 
-import texts from './../../texts/texts';
+import texts from './unlogged.texts';
 
 class Unlogged extends React.Component {
     constructor(props) {
@@ -36,9 +37,12 @@ class Unlogged extends React.Component {
                     this.setState({ message: response.message });
                 }
                 else {
-                    handleGlobalLanguage(this.state.language);
-                    this.props.handleUsers(response);
-                    this.props.history.replace("/");
+                    userService.incrementLogin(response._id)
+                        .then((updatedUser) => {
+                            handleGlobalLanguage(this.state.language);
+                            this.props.handleUsers(updatedUser);
+                            this.props.history.replace("/");
+                        })
                 }
             })
             .catch((err) => console.log(err));
@@ -76,13 +80,13 @@ class Unlogged extends React.Component {
                                 { this.state.display === true &&
                                 <div>
                                     <h1>
-                                        {language === "catalan" ? texts.unloggedGreeting.cat : language === "spanish" ? texts.unloggedGreeting.esp : texts.unloggedGreeting.eng}
+                                        {language === "catalan" ? texts.greeting.cat : language === "spanish" ? texts.greeting.esp : texts.greeting.eng}
                                     </h1>
                                     <p>
-                                        {language === "catalan" ? texts.unloggedPrompt.cat : language === "spanish" ? texts.unloggedPrompt.esp : texts.unloggedPrompt.eng}  
+                                        {language === "catalan" ? texts.prompt.cat : language === "spanish" ? texts.prompt.esp : texts.prompt.eng}  
                                     </p>
                                     <p>
-                                        {language === "catalan" ? texts.unloggedInstructions.cat : language === "spanish" ? texts.unloggedInstructions.esp : texts.unloggedInstructions.eng}  
+                                        {language === "catalan" ? texts.instructions.cat : language === "spanish" ? texts.instructions.esp : texts.instructions.eng}  
                                     </p>  
                                 </div>
                                 }
@@ -91,18 +95,18 @@ class Unlogged extends React.Component {
                             <section>
                                 <form onSubmit={(e) => this.handleSubmit(e, handleGlobalLanguage)}>
                                     <label htmlFor="username-input">
-                                        <strong>{language === "catalan" ? texts.unloggedForm.cat.username : language === "spanish" ? texts.unloggedForm.esp.username : texts.unloggedForm.eng.username}</strong>
+                                        <strong>{language === "catalan" ? texts.form.cat.username : language === "spanish" ? texts.form.esp.username : texts.form.eng.username}</strong>
                                     </label>
                                     <input id="username-input" type="text" name="username" 
                                            onChange={(e) => this.handleChange(e)} value={this.state.username} />
     
                                     <label htmlFor="password-input">
-                                        <strong>{language === "catalan" ? texts.unloggedForm.cat.password : language === "spanish" ? texts.unloggedForm.esp.password : texts.unloggedForm.eng.password} </strong>
+                                        <strong>{language === "catalan" ? texts.form.cat.password : language === "spanish" ? texts.form.esp.password : texts.form.eng.password} </strong>
                                     </label>
                                     <input id="password-input" type="password" name="password" 
                                            onChange={(e) => this.handleChange(e)} value={this.state.password} />
     
-                                    <input type="submit" value={language === "catalan" ? texts.unloggedForm.cat.button : language === "spanish" ? texts.unloggedForm.esp.button : texts.unloggedForm.eng.button}  />
+                                    <input type="submit" value={language === "catalan" ? texts.form.cat.button : language === "spanish" ? texts.form.esp.button : texts.form.eng.button}  />
                                 </form>
                                 {this.state.message && <p>{this.state.message}</p>}
                             </section>

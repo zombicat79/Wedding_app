@@ -11,7 +11,7 @@ const Profile = (props) => {
     }
     
     return (
-        <main>
+       <main>
             <section>
                 <div>
                     <h2>{props.user.username}</h2>

@@ -1,7 +1,6 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import authService from './services/auth-service';
-import userService from './services/user-service';
 
 import HeaderNavbar from './components/header_navbar/HeaderNavbar';
 import FooterNavbar from './components/footer_navbar/FooterNavbar';
@@ -21,6 +20,7 @@ class App extends React.Component {
     super(props);
     this.state = {
       user: null,
+      popupIsActive: true,
       gameStatus: "new",
       rightAnswers: 2, // *** needs to be updated dynamically once the backend is created. ***
       points: 100, // *** needs to be updated dynamically once the backend is created. ***
@@ -54,6 +54,7 @@ class App extends React.Component {
   }
 
   addToCart(item) {
+    // userService.addToCart(this.state.user._id, item)
     this.handleCartStatus(true);
     if (!this.state.cartItems[item]) {
       this.setState({ cartItems: {...this.state.cartItems, [item]: 1}}); 
@@ -79,7 +80,7 @@ class App extends React.Component {
   componentDidMount() {
     authService.getUser()
       .then((loggedInUser) => {
-        if (loggedInUser) {
+        if (loggedInUser._id) {
           this.setState({ user: loggedInUser });
         }
         else {
@@ -136,7 +137,8 @@ class App extends React.Component {
         }
         <>
           <Switch>
-            <Route exact path="/" render={(props) => <Main {...props} isLoggedIn={this.state.user} handleUsers={this.handleUsers} />} />
+            <Route exact path="/" render={(props) => <Main {...props} user={this.state.user} handleUsers={this.handleUsers} 
+                   popupIsActive={this.state.popupIsActive} />} />
             <Route exact path="/info" render={(props) => <Info {...props} handleUsers={this.handleUsers} />} />
             <Route exact path="/quiz" render={(props) => <Quiz {...props} state={this.state} />} />
             <Route path="/ingame/:id" render={(props) => (<InGame {...props } toggleGame={this.handleGameStatus} />)} />

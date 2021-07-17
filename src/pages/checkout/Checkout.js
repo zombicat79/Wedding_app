@@ -7,7 +7,7 @@ class Checkout extends React.Component {
     componentDidMount() {
         authService.getUser()
           .then((loggedInUser) => {
-            if (!loggedInUser) {
+            if (!loggedInUser._id) {
               this.props.history.replace("/");
             }
           })

@@ -4,6 +4,7 @@ import authService from './../../services/auth-service';
 
 import Countdown from './../../components/countdown/Countdown';
 import ActivityMenu from './../../components/activity_menu/ActivityMenu';
+import WelcomePopup from './../../components/welcome_popup/WelcomePopup';
 
 class Home extends React.Component {
     // page needs to be complete with final texts and conditional rendering corresponding selected language.
@@ -11,7 +12,7 @@ class Home extends React.Component {
     componentDidMount() {
         authService.getUser()
           .then((loggedInUser) => {
-            if (loggedInUser) {
+            if (loggedInUser._id) {
               this.props.handleUsers(loggedInUser);
             }
             else {
@@ -31,7 +32,6 @@ class Home extends React.Component {
                                 <h1>Ens casem!</h1>
                             </section>
                             <Countdown lang={value.properties.language} />
-                            {this.props.isLoggedIn && 
                             <section>
                                 <article>
                                     <h1>Vine a celebrar amb nosaltres!</h1>
@@ -40,11 +40,11 @@ class Home extends React.Component {
                                     <ActivityMenu {...this.props} />
                                 </article>
                             </section>
-                            }
-                            {!this.props.isLoggedIn &&
-                            <section>
-                                <p>Please make sure you enter your code to access the app</p>
-                            </section>
+                            {this.props.user.logins === 1 && 
+                             this.props.popupIsActive &&
+                            <dialog open>
+                                <WelcomePopup {...this.props} />
+                            </dialog>
                             }
                         </main>
                     )

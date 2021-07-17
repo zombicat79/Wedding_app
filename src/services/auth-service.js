@@ -20,7 +20,7 @@ class AuthService {
 
     getUser() {
         const pr = this.auth.get('me')
-            .then((response) => response.data);
+            .then((response) => response.data)
         return pr;
     }
 };

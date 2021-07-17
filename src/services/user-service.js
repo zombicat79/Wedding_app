@@ -13,6 +13,12 @@ class UserService {
             .then((response) => response.data);
         return pr;
     }
+
+    incrementLogin(userId) {
+        const pr = this.user.put(`${userId}/incrementLogin`)
+            .then((response) => response.data);
+        return pr;
+    }
 }
 
 const userService = new UserService();
