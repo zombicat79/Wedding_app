@@ -1,6 +1,7 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import authService from './services/auth-service';
+import userService from './services/user-service';
 
 import HeaderNavbar from './components/header_navbar/HeaderNavbar';
 import FooterNavbar from './components/footer_navbar/FooterNavbar';
@@ -24,9 +25,9 @@ class App extends React.Component {
       gameStatus: "new",
       rightAnswers: 2, // *** needs to be updated dynamically once the backend is created. ***
       points: 100, // *** needs to be updated dynamically once the backend is created. ***
-      productsInCart: false, // *** needs to be updated dynamically once the backend is created. ***
+      productsInCart: false, 
       availableProducts: [],
-      cartItems: {} // *** needs to be updated dynamically once the backend is created. ***
+      cartItems: {} 
     }
     this.handleUsers = this.handleUsers.bind(this);
     this.handleGameStatus = this.handleGameStatus.bind(this);
@@ -34,6 +35,7 @@ class App extends React.Component {
     this.addToCart = this.addToCart.bind(this);
     this.removeFromCart = this.removeFromCart.bind(this);
     this.updateProducts = this.updateProducts.bind(this);
+    this.handleCart = this.handleCart.bind(this);
   }
 
   handleUsers(loggedInUser) {
@@ -45,6 +47,10 @@ class App extends React.Component {
     setTimeout(() => this.setState({ gameStatus: "new"}), 10000);
   }
 
+  handleCart(cartState) {
+    this.setState({ cartItems: cartState });
+  }
+
   handleCartStatus(status) {
     this.setState({ productsInCart: status });
   }
@@ -54,26 +60,31 @@ class App extends React.Component {
   }
 
   addToCart(item) {
-    // userService.addToCart(this.state.user._id, item)
     this.handleCartStatus(true);
-    if (!this.state.cartItems[item]) {
-      this.setState({ cartItems: {...this.state.cartItems, [item]: 1}}); 
-    }
-    else {
-      this.setState((prevState) => {
-        return { cartItems: {...this.state.cartItems, [item]: prevState.cartItems[item] + 1} };
-      });
-    }
+    this.setState((prevState) => {
+        if (prevState.user) {
+          return { cartItems: {...this.state.cartItems, [item]: prevState.cartItems[item] + 1} };
+        }
+        else {
+          return { cartItems: {...this.state.cartItems, [item]: 1} };
+        }
+    }, () => {
+      userService.modifyCart(this.state.user._id, this.state.cartItems);
+    })
   }
 
   removeFromCart(item, reset) {
     if (reset === undefined && this.state.cartItems[item] !== 0) {
       this.setState((prevState) => {
         return { cartItems: {...this.state.cartItems, [item]: prevState.cartItems[item] - 1} }
+      }, () => {
+        userService.modifyCart(this.state.user._id, this.state.cartItems);
       })      
     }
     else {
-      this.setState({ cartItems: {...this.state.cartItems, [item]: 0}});
+      this.setState({ cartItems: {...this.state.cartItems, [item]: 0}}, () => {
+        userService.modifyCart(this.state.user._id, this.state.cartItems);
+      });
     }
   }
 
@@ -81,7 +92,13 @@ class App extends React.Component {
     authService.getUser()
       .then((loggedInUser) => {
         if (loggedInUser._id) {
-          this.setState({ user: loggedInUser });
+          this.setState({ 
+            user: loggedInUser,
+            cartItems: loggedInUser.productsInCart 
+          }, () => {
+            const totalItemsInCart = Object.values(this.state.user.productsInCart).reduce((acc, current) => acc + current, 0);
+            this.setState({ productsInCart: totalItemsInCart === 0 ? false : true });
+          });
         }
         else {
           this.setState({ user: null });
@@ -125,6 +142,9 @@ class App extends React.Component {
   
   render() {
     const Main = !this.state.user ? Unlogged : Home;
+    console.log(this.state.user)
+    console.log(this.state.cartItems)
+    
     
     return (
       <>
@@ -138,13 +158,13 @@ class App extends React.Component {
         <>
           <Switch>
             <Route exact path="/" render={(props) => <Main {...props} user={this.state.user} handleUsers={this.handleUsers} 
-                   popupIsActive={this.state.popupIsActive} />} />
+                   popupIsActive={this.state.popupIsActive} handleCartStatus={this.handleCartStatus} handleCart={this.handleCart}/>} />
             <Route exact path="/info" render={(props) => <Info {...props} handleUsers={this.handleUsers} />} />
             <Route exact path="/quiz" render={(props) => <Quiz {...props} state={this.state} />} />
             <Route path="/ingame/:id" render={(props) => (<InGame {...props } toggleGame={this.handleGameStatus} />)} />
             <Route path="/gamestats/:id" render={(props) => <GameStats {...props} />} component={GameStats}/>
             <Route exact path="/market" render={(props) => <Market {...props} addToCart={this.addToCart} cartItems={this.state.cartItems} 
-              updateProducts={this.updateProducts} products={this.state.availableProducts} />} />
+              updateProducts={this.updateProducts} products={this.state.availableProducts} user={this.state.user} />} />
             <Route exact path="/checkout" render={(props) => <Checkout {...props} cartItems={this.state.cartItems} 
               addToCart={this.addToCart} removeFromCart={this.removeFromCart} products={this.state.availableProducts} />} />
             <Route exact path="/requests" render={(props) => <Requests {...props} />} />

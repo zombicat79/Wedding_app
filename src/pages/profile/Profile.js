@@ -6,6 +6,7 @@ const Profile = (props) => {
         authService.logout()
             .then(() => {
                 props.history.replace("/");
+                props.handleUsers(null);
             })
             .catch((err) => console.log(err));
     }

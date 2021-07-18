@@ -8,8 +8,8 @@ class UserService {
         })
     }
 
-    addToCart(userId, product) {
-        const pr = this.user.put(`${userId}/addToCart`, { product })
+    modifyCart(userId, cartState) {
+        const pr = this.user.put(`${userId}/modifyCart`, { cartState })
             .then((response) => response.data);
         return pr;
     }

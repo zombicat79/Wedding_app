@@ -2,6 +2,7 @@ import React from 'react';
 import { LangContext } from './../../context/lang-context';
 import authService from './../../services/auth-service';
 import productService from './../../services/product-service';
+import userService from './../../services/user-service';
 
 import ProductOffer from './../../components/market_components/product_offer/ProductOffer';
 import PurchaseSummary from './../../components/market_components/purchase_summary/PurchaseSummary';
@@ -22,6 +23,10 @@ class Market extends React.Component {
         })
         .catch((err) => console.log(err));
     }
+
+    /*componentWillUnmount() {
+        userService.addToCart(this.props.user._id, this.props.cartItems);
+    }*/
     
     render() {
         return (
@@ -35,7 +40,8 @@ class Market extends React.Component {
                                               products={this.props.products} />
                             </section>
                             <section>
-                                <PurchaseSummary {...this.props} products={this.props.products} />
+                                <PurchaseSummary {...this.props} products={this.props.products} 
+                                                 language={value.properties.language} />
                             </section>
                         </main>
                     )

@@ -14,6 +14,9 @@ class Home extends React.Component {
           .then((loggedInUser) => {
             if (loggedInUser._id) {
               this.props.handleUsers(loggedInUser);
+              this.props.handleCart(loggedInUser.productsInCart);
+              const totalItemsInCart = Object.values(this.state.user.productsInCart).reduce((acc, current) => acc + current, 0);
+              this.props.handleCartStatus(totalItemsInCart === 0 ? false : true)
             }
             else {
               this.props.handleUsers(null);

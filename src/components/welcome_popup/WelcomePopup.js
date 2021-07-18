@@ -1,7 +1,6 @@
 import React from 'react';
 
 const WelcomePopup = (props) => {
-    console.log(props)
     const styles = {
         div: {
             color: "green"

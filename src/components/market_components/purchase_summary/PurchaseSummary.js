@@ -1,13 +1,20 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+import userService from './../../../services/user-service';
+
 const PurchaseSummary = (props) => {
     
     let prepurchaseItems = [];
     for (const item in props.cartItems) {
         for (const element of props.products) {
-            if (item === element.name.cat || item === element.name.esp || item === element.name.eng) {
-                prepurchaseItems.push({item: item, num: props.cartItems[item], price: element.price})
+            if (item === element.name.eng) {
+                const translatedItem = props.language === "catalan" ? element.name.cat : props.language === "spanish" ? element.name.esp : element.name.eng;
+                prepurchaseItems.push({
+                    item: translatedItem, 
+                    num: props.cartItems[item], 
+                    price: element.price
+                });
             }
         }
     }
@@ -23,7 +30,9 @@ const PurchaseSummary = (props) => {
                 <ul>
                     {prepurchaseItems.map((el) => {
                         return (
-                            <li key={el.item}>{el.num} {el.item}
+                            el.num > 0 &&
+                            <li key={el.item}>      
+                                {el.num} {el.item}
                                 <p>{el.num * el.price}€</p>
                                 {props.match.path === "/checkout" && 
                                 <>    
@@ -45,6 +54,7 @@ const PurchaseSummary = (props) => {
             }
             {props.match.path === "/checkout" &&
             <div>
+                <Link to="/market"><button>Browse for different products</button></Link>
                 <button>Confirm and pay</button>
             </div>
             }
