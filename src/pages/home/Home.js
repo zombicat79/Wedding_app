@@ -10,19 +10,31 @@ class Home extends React.Component {
     // page needs to be complete with final texts and conditional rendering corresponding selected language.
     // First text line must greet the user dynamically
     componentDidMount() {
-        authService.getUser()
-          .then((loggedInUser) => {
-            if (loggedInUser._id) {
-              this.props.handleUsers(loggedInUser);
-              this.props.handleCart(loggedInUser.productsInCart);
-              const totalItemsInCart = Object.values(this.state.user.productsInCart).reduce((acc, current) => acc + current, 0);
-              this.props.handleCartStatus(totalItemsInCart === 0 ? false : true)
+        if (this.props.user.logins > 1) {
+            this.props.handlePopupStatus(false);
+            this.props.handleCart(this.props.user.productsInCart)
+            const totalItemsInCart = Object.values(this.props.user.productsInCart).reduce((acc, current) => acc + current, 0);
+            this.props.handleCartStatus(totalItemsInCart === 0 ? false : true);
+        }
+        else {
+            const root = document.getElementById("root");
+            root.style.position = "fixed";
+            root.style.height = "100%";
+            root.style.width = "100%";
+            root.style.color = "grey"
+            root.style.backgroundColor = "rgb(169, 169, 169)";
+
+            const rootLinks = document.getElementsByClassName("link")
+            for (let el of rootLinks) {
+                el.style.textDecoration = "none";
+                el.style.color = "grey";
             }
-            else {
-              this.props.handleUsers(null);
-            }
-          })
-          .catch((err) => console.log(err));
+
+            this.props.handlePopupStatus(true);
+            this.props.handleCart(this.props.user.productsInCart)
+            const totalItemsInCart = Object.values(this.props.user.productsInCart).reduce((acc, current) => acc + current, 0);
+            this.props.handleCartStatus(totalItemsInCart === 0 ? false : true);
+        }
     }
     
     render() {

@@ -42,7 +42,6 @@ class Unlogged extends React.Component {
                             handleGlobalLanguage(this.state.language);
                             this.props.handleUsers(updatedUser);
                             this.props.history.replace("/");
-                            window.location.reload();
                         })
                 }
             })

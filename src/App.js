@@ -37,10 +37,15 @@ class App extends React.Component {
     this.removeFromCart = this.removeFromCart.bind(this);
     this.updateProducts = this.updateProducts.bind(this);
     this.handleCart = this.handleCart.bind(this);
+    this.handlePopupStatus = this.handlePopupStatus.bind(this);
   }
 
   handleUsers(loggedInUser) {
     this.setState({ user: loggedInUser });
+  }
+
+  handlePopupStatus(status) {
+    this.setState({ popupIsActive: status });
   }
   
   handleGameStatus() {
@@ -89,38 +94,11 @@ class App extends React.Component {
     }
   }
 
-  // solve issue regarding incorrect loading of state (componentDidMount only loads once, when Unlogged is rendered)
   componentDidMount() {
     authService.getUser()
       .then((loggedInUser) => {
         if (loggedInUser._id) {
-          this.setState({ user: loggedInUser }, () => {
-            if (this.state.user.logins > 1) {
-              this.setState({ cartItems: loggedInUser.productsInCart, popupIsActive: false }, () => {
-                const totalItemsInCart = Object.values(this.state.user.productsInCart).reduce((acc, current) => acc + current, 0);
-                this.setState({ productsInCart: totalItemsInCart === 0 ? false : true });
-              })
-            }
-            else {
-              const root = document.getElementById("root");
-              root.style.position = "fixed";
-              root.style.height = "100%";
-              root.style.width = "100%";
-              root.style.color = "grey"
-              root.style.backgroundColor = "rgb(169, 169, 169)";
-
-              const rootLinks = document.getElementsByClassName("link")
-              for (let el of rootLinks) {
-                el.style.textDecoration = "none";
-                el.style.color = "grey";
-              }
-
-              this.setState({ cartItems: loggedInUser.productsInCart }, () => {
-                const totalItemsInCart = Object.values(this.state.user.productsInCart).reduce((acc, current) => acc + current, 0);
-                this.setState({ productsInCart: totalItemsInCart === 0 ? false : true });
-              })
-            }
-          });
+          this.setState({ user: loggedInUser });
         }
         else {
           this.setState({ user: null });
@@ -177,7 +155,8 @@ class App extends React.Component {
         <>
           <Switch>
             <Route exact path="/" render={(props) => <Main {...props} user={this.state.user} handleUsers={this.handleUsers} 
-                   popupIsActive={this.state.popupIsActive} handleCartStatus={this.handleCartStatus} handleCart={this.handleCart}/>} />
+                   popupIsActive={this.state.popupIsActive} handleCartStatus={this.handleCartStatus} handleCart={this.handleCart} 
+                   handlePopupStatus={this.handlePopupStatus}/>} />
             <Route exact path="/info" render={(props) => <Info {...props} handleUsers={this.handleUsers} />} />
             <Route exact path="/quiz" render={(props) => <Quiz {...props} state={this.state} />} />
             <Route path="/ingame/:id" render={(props) => (<InGame {...props } toggleGame={this.handleGameStatus} />)} />
