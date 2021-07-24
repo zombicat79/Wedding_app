@@ -23,10 +23,6 @@ class Market extends React.Component {
         })
         .catch((err) => console.log(err));
     }
-
-    /*componentWillUnmount() {
-        userService.addToCart(this.props.user._id, this.props.cartItems);
-    }*/
     
     render() {
         return (

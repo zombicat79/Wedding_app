@@ -2,6 +2,7 @@ import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import authService from './services/auth-service';
 import userService from './services/user-service';
+import productService from './services/product-service';
 
 import HeaderNavbar from './components/header_navbar/HeaderNavbar';
 import FooterNavbar from './components/footer_navbar/FooterNavbar';
@@ -88,16 +89,37 @@ class App extends React.Component {
     }
   }
 
+  // solve issue regarding incorrect loading of state (componentDidMount only loads once, when Unlogged is rendered)
   componentDidMount() {
     authService.getUser()
       .then((loggedInUser) => {
         if (loggedInUser._id) {
-          this.setState({ 
-            user: loggedInUser,
-            cartItems: loggedInUser.productsInCart 
-          }, () => {
-            const totalItemsInCart = Object.values(this.state.user.productsInCart).reduce((acc, current) => acc + current, 0);
-            this.setState({ productsInCart: totalItemsInCart === 0 ? false : true });
+          this.setState({ user: loggedInUser }, () => {
+            if (this.state.user.logins > 1) {
+              this.setState({ cartItems: loggedInUser.productsInCart, popupIsActive: false }, () => {
+                const totalItemsInCart = Object.values(this.state.user.productsInCart).reduce((acc, current) => acc + current, 0);
+                this.setState({ productsInCart: totalItemsInCart === 0 ? false : true });
+              })
+            }
+            else {
+              const root = document.getElementById("root");
+              root.style.position = "fixed";
+              root.style.height = "100%";
+              root.style.width = "100%";
+              root.style.color = "grey"
+              root.style.backgroundColor = "rgb(169, 169, 169)";
+
+              const rootLinks = document.getElementsByClassName("link")
+              for (let el of rootLinks) {
+                el.style.textDecoration = "none";
+                el.style.color = "grey";
+              }
+
+              this.setState({ cartItems: loggedInUser.productsInCart }, () => {
+                const totalItemsInCart = Object.values(this.state.user.productsInCart).reduce((acc, current) => acc + current, 0);
+                this.setState({ productsInCart: totalItemsInCart === 0 ? false : true });
+              })
+            }
           });
         }
         else {
@@ -111,7 +133,7 @@ class App extends React.Component {
     /* Code below compares the present presence of items in the cart with the presence of items at the 
     moment immediately before. If the comparison establishes the cart has just been emptied, then setState
     is called and the cart labelled as empty (pending: try to abstract lengthy chunk of code into a function) */
-    
+
     let cartCheck = [];
     for(const item in this.state.cartItems) {
       if (this.state.cartItems[item] === 0) {
@@ -142,16 +164,13 @@ class App extends React.Component {
   
   render() {
     const Main = !this.state.user ? Unlogged : Home;
-    console.log(this.state.user)
-    console.log(this.state.cartItems)
-    
     
     return (
       <>
         {this.state.user && 
         <header>
           <nav>
-            <HeaderNavbar productsInCart={this.state.productsInCart} user={this.state.user} />
+            <HeaderNavbar productsInCart={this.state.productsInCart} user={this.state.user} popupIsActive={this.state.popupIsActive} />
           </nav>
         </header>
         }
@@ -166,7 +185,7 @@ class App extends React.Component {
             <Route exact path="/market" render={(props) => <Market {...props} addToCart={this.addToCart} cartItems={this.state.cartItems} 
               updateProducts={this.updateProducts} products={this.state.availableProducts} user={this.state.user} />} />
             <Route exact path="/checkout" render={(props) => <Checkout {...props} cartItems={this.state.cartItems} 
-              addToCart={this.addToCart} removeFromCart={this.removeFromCart} products={this.state.availableProducts} />} />
+              addToCart={this.addToCart} removeFromCart={this.removeFromCart} products={this.state.availableProducts} updateProducts={this.updateProducts} />} />
             <Route exact path="/requests" render={(props) => <Requests {...props} />} />
             <Route path="/profile/:userId" render={(props) => <Profile {...props} user={this.state.user} handleUsers={this.handleUsers} />} />
           </Switch>
@@ -174,7 +193,7 @@ class App extends React.Component {
         {this.state.user && 
         <footer>
           <nav>
-            <FooterNavbar />
+            <FooterNavbar popupIsActive={this.state.popupIsActive} />
           </nav>
         </footer>
         }

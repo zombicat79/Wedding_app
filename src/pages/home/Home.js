@@ -26,7 +26,7 @@ class Home extends React.Component {
     }
     
     render() {
-        return (
+            return (
             <LangContext.Consumer>
                 {(value) => {
                     return (

@@ -1,8 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import userService from './../../../services/user-service';
-
 const PurchaseSummary = (props) => {
     
     let prepurchaseItems = [];

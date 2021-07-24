@@ -35,11 +35,19 @@ class ActivityMenu extends React.Component {
             {this.props.match.path === "/" && 
             <div>
                 <h2>Coses que pots fer abans del gran dia</h2>
+                {this.props.popupIsActive === true 
+                ?
+                <ul>
+                    <li><Link to="/requests"><button disabled>Proposa'ns</button></Link></li>
+                    <li><Link to="/market"><button disabled>Ajuda'ns</button></Link></li>
+                    <li><Link to="/quiz"><button disabled>Juga</button></Link></li>
+                </ul>
+                :
                 <ul>
                     <li><Link to="/requests"><button>Proposa'ns</button></Link></li>
                     <li><Link to="/market"><button>Ajuda'ns</button></Link></li>
                     <li><Link to="/quiz"><button>Juga</button></Link></li>
-                </ul>
+                </ul>}
             </div>}
             
             {this.props.match.path === "/requests" && 
