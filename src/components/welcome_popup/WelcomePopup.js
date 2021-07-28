@@ -1,42 +1,59 @@
 import React from 'react';
 
-const WelcomePopup = (props) => {
-    const styles = {
-        div: {
-            color: "green"
-        }
+import SubPopup1 from './SubPopup1';
+import SubPopup2 from './SubPopup2';
+import SubPopup3 from './SubPopup3';
+
+const styles = {
+    div: {
+        color: "green"
     }
-//checkbox inputs must be "radio buttons"!
+}
+
+// import SubPopup 2 & 3 and complete them!
+// create state to manage SubPopup flow
+// checkbox SubPopup inputs must be "radio buttons"!
+
+class WelcomePopup extends React.Component {
+    state = {
+        popupStage: 1,
+        attending: "",
+    }
+
+    handleStages = (popupSteps) => {
+        this.setState((prevState) => {
+            return {popupStage: prevState.popupStage + popupSteps}
+        });
+    }
+
+    handleResponses = (event) => {
+        const { name, value } = event.target;
+        console.log(name);
+        console.log(value);
+    }
     
-    return (
-        <div>
+    render() {
+        return (
             <div>
                 <div>
-                    <p>1</p>
+                    <div>
+                        <p>1</p>
+                    </div>
+                    <div>
+                        <p>2</p>
+                    </div>
+                    {this.props.user.kids.length > 0 && <div>
+                        <p>3</p>
+                    </div>
+                    }
                 </div>
-                <div>
-                    <p>2</p>
-                </div>
-                {props.user.kids.length > 0 && <div>
-                    <p>3</p>
-                </div>
-                }
+                {this.state.popupStage === 1 && <SubPopup1 language={this.props.language} user={this.props.user} 
+                                                handleStages={this.handleStages} handleResponses={this.handleResponses} />}
+                {this.state.popupStage === 2 && <SubPopup2 language={this.props.language} user={this.props.user} handleStages={this.handleStages} />}
+                {this.state.popupStage === 3 && <SubPopup3 language={this.props.language} user={this.props.user} />}
             </div>
-            <h1 style={styles.div}>Hola {props.user.casualName}!</h1>
-            <h3>Ens casem, i ens complau enormement convidar-te perquè vinguis a celebrar-ho amb nosaltres!</h3>
-            <h2>Assistiràs?</h2>
-            <p>(No t'estressis! Pots canviar la teva resposta en qualsevol moment!)</p>
-            <form>
-                <label>Sí</label>
-                <input type="checkbox" />
-
-                <label>No</label>
-                <input type="checkbox" />
-
-                <input type="submit" value="Següent" />
-            </form>
-        </div>
-    )
+        )
+    }
 }
 
 export default WelcomePopup;

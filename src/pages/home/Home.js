@@ -58,7 +58,7 @@ class Home extends React.Component {
                             {this.props.user.logins === 1 && 
                              this.props.popupIsActive &&
                             <dialog open>
-                                <WelcomePopup {...this.props} />
+                                <WelcomePopup {...this.props} language={value.properties.language} />
                             </dialog>
                             }
                         </main>

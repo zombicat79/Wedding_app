@@ -73,9 +73,9 @@ class Unlogged extends React.Component {
                                     <img src="https://xarxanet.org/sites/default/files/styles/xn17_2x2/public/festa_major_santperereus.jpeg?itok=3eWllFjr" width="400" alt="Logo festa major" />  
                                 </div>
                                 <div>
-                                    <img src={catalan} onClick={(e) => this.handleLanguage(e)} width="80" alt="Catalan flag" name="catalan" />
-                                    <img src={spanish} onClick={(e) => this.handleLanguage(e)} width="50" alt="Spanish flag" name="spanish" />
-                                    <img src={english} onClick={(e) => this.handleLanguage(e)} width="44" alt="UK flag" name="english" />
+                                    <img src={catalan} onClick={(e) => {handleGlobalLanguage(e); this.handleLanguage(e)}} width="80" alt="Catalan flag" name="catalan" />
+                                    <img src={spanish} onClick={(e) => {handleGlobalLanguage(e); this.handleLanguage(e)}} width="50" alt="Spanish flag" name="spanish" />
+                                    <img src={english} onClick={(e) => {handleGlobalLanguage(e); this.handleLanguage(e)}} width="44" alt="UK flag" name="english" />
                                 </div>
                                 { this.state.display === true &&
                                 <div>
