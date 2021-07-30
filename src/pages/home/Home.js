@@ -1,5 +1,6 @@
 import React from 'react';
 import { LangContext } from './../../context/lang-context';
+import { clearScreen } from './../../functions/common';
 import authService from './../../services/auth-service';
 
 import Countdown from './../../components/countdown/Countdown';
@@ -36,6 +37,10 @@ class Home extends React.Component {
             this.props.handleCartStatus(totalItemsInCart === 0 ? false : true);
         }
     }
+
+    componentWillUnmount() {
+        clearScreen();
+    }
     
     render() {
             return (
@@ -58,7 +63,8 @@ class Home extends React.Component {
                             {this.props.user.logins === 1 && 
                              this.props.popupIsActive &&
                             <dialog open>
-                                <WelcomePopup {...this.props} language={value.properties.language} />
+                                <WelcomePopup {...this.props} language={value.properties.language} 
+                                              handlePopupStatus={this.props.handlePopupStatus} />
                             </dialog>
                             }
                         </main>

@@ -4,7 +4,7 @@ import authService from './../../services/auth-service';
 const Profile = (props) => {
     const logout = () => {
         authService.logout()
-            .then(() => {
+            .then(() => {         
                 props.history.replace("/");
                 props.handleUsers(null);
             })
