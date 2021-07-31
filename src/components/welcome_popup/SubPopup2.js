@@ -16,8 +16,8 @@ const SubPopup2 = (props) => {
                 {
                     props.user.kids.map((el) => {
                         return (
-                            <React.Fragment key={el + 1}>
-                                <label>{el}</label>
+                            <React.Fragment key={el.name}>
+                                <label>{el.name}</label>
                                 <input type="checkbox" />
                             </React.Fragment>
                         )

@@ -1,4 +1,5 @@
 import React from 'react';
+import userService from '../../services/user-service';
 
 import SubPopup1 from './SubPopup1';
 import SubPopup2 from './SubPopup2';
@@ -17,8 +18,7 @@ const styles = {
 
 class WelcomePopup extends React.Component {
     state = {
-        popupStage: 1,
-        attending: "",
+        popupStage: 1
     }
 
     handleStages = (popupSteps) => {
@@ -29,8 +29,9 @@ class WelcomePopup extends React.Component {
 
     handleResponses = (event) => {
         const { name, value } = event.target;
-        console.log(name);
-        console.log(value);
+        console.log(name)
+        console.log(value)
+        userService.updateUser(this.props.user._id, name, value);
     }
     
     render() {
@@ -57,7 +58,7 @@ class WelcomePopup extends React.Component {
                 {this.state.popupStage === 3 && <SubPopup3 language={this.props.language} user={this.props.user} 
                                                 handleStages={this.handleStages} handleResponses={this.handleResponses} />}
                 {this.state.popupStage === 4 && <SubPopup4 language={this.props.language} user={this.props.user} 
-                                                handlePopupStatus={this.props.handlePopupStatus} />}
+                                                handlePopupStatus={this.props.handlePopupStatus} handleResponses={this.handleResponses} />}
             </div>
         )
     }

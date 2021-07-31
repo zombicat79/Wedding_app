@@ -27,7 +27,7 @@ const SubPopup4 = (props) => {
                         return (
                             <React.Fragment key={el + 1}>
                                 <label>{el}</label>
-                                <input type="checkbox" />
+                                <input type="checkbox" name="allergies" value={el} onClick={(e) => props.handleResponses(e)} />
                             </React.Fragment>
                         )
                     })
@@ -38,7 +38,7 @@ const SubPopup4 = (props) => {
                         return (
                             <React.Fragment key={el + 1}>
                                 <label>{verb} {el}</label>
-                                <input type="checkbox" />
+                                <input type="checkbox" name="allergies" value={el} onClick={(e) => props.handleResponses(e)} />
                             </React.Fragment>
                         )
                     })
@@ -49,7 +49,7 @@ const SubPopup4 = (props) => {
                         return (
                             <React.Fragment key={el + 1}>
                                 <label>{verb2} {el}</label>
-                                <input type="checkbox" />
+                                <input type="checkbox" name="allergies" value={el} onClick={(e) => props.handleResponses(e)} />
                             </React.Fragment>
                         )
                     })
