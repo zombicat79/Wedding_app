@@ -1,14 +1,11 @@
 import React from 'react';
 
 import texts from './welcomepopup.texts';
-import { clearScreen } from './../../functions/common';
 
 const SubPopup4 = (props) => {
     const handleSubmit = (event) => {
         event.preventDefault();
-        props.handlePopupStatus(false);
-
-        clearScreen();
+        props.handleStages("happy ending");
     }
 
     const allergies = props.language === "catalan" ? texts.allergies.cat : props.language === "spanish" ? texts.allergies.esp : texts.allergies.eng;

@@ -43,6 +43,26 @@ const texts = {
         esp: "Siguiente",
         eng: "Next"
     },
+    sadHeader: {
+        cat: "Vaja! Quina pena!",
+        esp: "¡Vaya! ¡Qué pena!",
+        eng: "Oooops! That's a pity!"
+    },
+    sadFeelings: {
+        cat: "Ens sap greu saber que no podràs venir a la nostra Festa Major. Et trobarem molt a faltar.",
+        esp: "Nos sabe realmente mal que no puedas venir a nuestra Fiesta Mayor. Te echaremos mucho de menos.",
+        eng: "We regret that you won't be able to attend our Party of a Lifetime. We'll miss you a lot."
+    },
+    sadCue: {
+        cat: "En qualsevol cas recorda que, si mai t'ho repenses, pots fer-nos-ho saber modificant el teu estat mitjançant aquest mateix aplicatiu.",
+        esp: "De todas maneras recuerda que, si en algún momento te lo replanteas, puedes comunicarnoslo modificando tu estado mediante este mismo aplicativo.",
+        eng: "However, do remind that if you ever change your feelings you can make us aware of it by modifying your status in this very app."
+    },
+    sadDismissal: {
+        cat: "Fins la propera!",
+        esp: "¡Hasta la próxima!",
+        eng: "See you around!"
+    },
     question2: {
         cat: "T'acompanyaran els teus fills?",
         esp: "Traerás a tus hijos?",
@@ -97,6 +117,26 @@ const texts = {
         cat: "Finalitzar",
         esp: "Finalizar",
         eng: "Finish"
+    },
+    thanks: {
+        cat: "Moltes gràcies per la informació.",
+        esp: "Muchas gracias por la información.",
+        eng: "Thanks a lot for the info."
+    },
+    endCue: {
+        cat: "A partir d'aquest moment, ja pots navegar lliurement per aquest aplicatiu i modificar les dades que ens has donat (així com moltes altres) editant el teu perfil personal. Bona exploració!",
+        esp: "A partir de este momento, ya puedes navegar libremente por este aplicativo y modificar los datos que nos has proporcionado (así como muchos otros) editando tu perfil personal. ¡Buena exploración!",
+        eng: "From now on you can freely navigate this app and modify the data you've given us (along with some other items) by editing your personal profile. Feel free to explore!"
+    },
+    happyDismissal: {
+        cat: "Ens veiem aviat!",
+        esp: "¡Nos vemos pronto!",
+        eng: "See you soon!"
+    },
+    closeButton: {
+        cat: "Tanca",
+        esp: "Cerrar",
+        eng: "Close"
     }
 };
 

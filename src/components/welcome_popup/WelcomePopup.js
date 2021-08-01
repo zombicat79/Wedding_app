@@ -1,10 +1,13 @@
 import React from 'react';
 import userService from '../../services/user-service';
+import { clearScreen } from './../../functions/common';
 
 import SubPopup1 from './SubPopup1';
 import SubPopup2 from './SubPopup2';
 import SubPopup3 from './SubPopup3';
 import SubPopup4 from './SubPopup4';
+import SadEnding from './SadEnding';
+import HappyEnding from './HappyEnding';
 
 const styles = {
     div: {
@@ -12,26 +15,36 @@ const styles = {
     }
 }
 
-// import SubPopup 2 & 3 and complete them!
-// create state to manage SubPopup flow
-// checkbox SubPopup inputs must be "radio buttons"!
-
 class WelcomePopup extends React.Component {
     state = {
         popupStage: 1
     }
 
     handleStages = (popupSteps) => {
-        this.setState((prevState) => {
-            return {popupStage: prevState.popupStage + popupSteps}
-        });
+        if (typeof popupSteps === "number") {
+            this.setState((prevState) => {
+                return {popupStage: prevState.popupStage + popupSteps}
+            });
+        }
+        else {
+            this.setState({ popupStage: popupSteps })
+        }
     }
 
     handleResponses = (event) => {
         const { name, value } = event.target;
-        console.log(name)
-        console.log(value)
-        userService.updateUser(this.props.user._id, name, value);
+
+        if (name === "attending" && value === "false") {
+            this.setState({ popupStage: "sad ending" });
+        }
+        else {
+            userService.updateUser(this.props.user._id, name, value);
+        }
+    }
+
+    closePopup = () => {
+        this.props.handlePopupStatus(false);
+        clearScreen();
     }
     
     render() {
@@ -54,11 +67,15 @@ class WelcomePopup extends React.Component {
                 </div>
                 {this.state.popupStage === 1 && <SubPopup1 language={this.props.language} user={this.props.user} 
                                                 handleStages={this.handleStages} handleResponses={this.handleResponses} />}
-                {this.state.popupStage === 2 && <SubPopup2 language={this.props.language} user={this.props.user} handleStages={this.handleStages} />}
+                {this.state.popupStage === 2 && <SubPopup2 language={this.props.language} user={this.props.user} 
+                                                handleStages={this.handleStages} handleResponses={this.handleResponses} />}
                 {this.state.popupStage === 3 && <SubPopup3 language={this.props.language} user={this.props.user} 
                                                 handleStages={this.handleStages} handleResponses={this.handleResponses} />}
                 {this.state.popupStage === 4 && <SubPopup4 language={this.props.language} user={this.props.user} 
-                                                handlePopupStatus={this.props.handlePopupStatus} handleResponses={this.handleResponses} />}
+                                                handlePopupStatus={this.props.handlePopupStatus} handleResponses={this.handleResponses}
+                                                handleStages={this.handleStages} />}
+                {this.state.popupStage === "sad ending" && <SadEnding language={this.props.language} closePopup={this.closePopup} />}
+                {this.state.popupStage === "happy ending" && <HappyEnding language={this.props.language} closePopup={this.closePopup} />}
             </div>
         )
     }
