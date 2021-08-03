@@ -142,6 +142,7 @@ class App extends React.Component {
   
   render() {
     const Main = !this.state.user ? Unlogged : Home;
+    console.log(this.state)
     
     return (
       <>

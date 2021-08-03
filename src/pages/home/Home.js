@@ -11,7 +11,7 @@ class Home extends React.Component {
     // page needs to be complete with final texts and conditional rendering corresponding selected language.
     // First text line must greet the user dynamically
     componentDidMount() {
-        if (this.props.user.logins > 1) {
+        if (this.props.user.logins >= 2) {
             this.props.handlePopupStatus(false);
             this.props.handleCart(this.props.user.productsInCart)
             const totalItemsInCart = Object.values(this.props.user.productsInCart).reduce((acc, current) => acc + current, 0);
@@ -60,11 +60,11 @@ class Home extends React.Component {
                                     <ActivityMenu {...this.props} />
                                 </article>
                             </section>
-                            {this.props.user.logins === 1 && 
-                             this.props.popupIsActive &&
+                            {this.props.popupIsActive &&
                             <dialog open>
                                 <WelcomePopup {...this.props} language={value.properties.language} 
-                                              handlePopupStatus={this.props.handlePopupStatus} />
+                                              handlePopupStatus={this.props.handlePopupStatus} 
+                                              handleUsers={this.props.handleUsers} />
                             </dialog>
                             }
                         </main>

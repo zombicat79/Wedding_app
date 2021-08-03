@@ -5,11 +5,18 @@ import texts from './welcomepopup.texts';
 const SubPopup1 = (props) => {
     const handleSubmit = (event) => {
         event.preventDefault();
-        if (props.user.kids.length > 0) {
-            props.handleStages(1);
-        }
-        else {
-            props.handleStages(2);
+        if (props.popupState.attending) {
+            if (props.popupState.attending === "false") {
+                props.handleStages("sad ending");
+            }
+            else {
+                if (props.user.kids.length > 0) {
+                    props.handleStages(1);
+                }
+                else {
+                    props.handleStages(2);
+                } 
+            }
         }
     }
     

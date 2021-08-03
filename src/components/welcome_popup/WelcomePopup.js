@@ -17,7 +17,9 @@ const styles = {
 
 class WelcomePopup extends React.Component {
     state = {
-        popupStage: 1
+        popupStage: 1,
+        attending: "",
+        needsLodging: ""
     }
 
     handleStages = (popupSteps) => {
@@ -34,8 +36,13 @@ class WelcomePopup extends React.Component {
     handleResponses = (event) => {
         const { name, value } = event.target;
 
-        if (name === "attending" && value === "false") {
-            this.setState({ popupStage: "sad ending" });
+        if (name === "attending") {
+            userService.updateUser(this.props.user._id, name, value);
+            this.setState({ attending: value });
+        }
+        else if (name === "lodging") {
+            userService.updateUser(this.props.user._id, name, value);
+            this.setState({ needsLodging: value });
         }
         else {
             userService.updateUser(this.props.user._id, name, value);
@@ -44,6 +51,9 @@ class WelcomePopup extends React.Component {
 
     closePopup = () => {
         this.props.handlePopupStatus(false);
+        userService.incrementLogin(this.props.user._id)
+            .then((updatedUser) => this.props.handleUsers(updatedUser))
+            .catch((err) => console.log(err));
         clearScreen();
     }
     
@@ -66,11 +76,11 @@ class WelcomePopup extends React.Component {
                     }
                 </div>
                 {this.state.popupStage === 1 && <SubPopup1 language={this.props.language} user={this.props.user} 
-                                                handleStages={this.handleStages} handleResponses={this.handleResponses} />}
+                                                handleStages={this.handleStages} handleResponses={this.handleResponses} popupState={this.state} />}
                 {this.state.popupStage === 2 && <SubPopup2 language={this.props.language} user={this.props.user} 
                                                 handleStages={this.handleStages} handleResponses={this.handleResponses} />}
                 {this.state.popupStage === 3 && <SubPopup3 language={this.props.language} user={this.props.user} 
-                                                handleStages={this.handleStages} handleResponses={this.handleResponses} />}
+                                                handleStages={this.handleStages} handleResponses={this.handleResponses} popupState={this.state} />}
                 {this.state.popupStage === 4 && <SubPopup4 language={this.props.language} user={this.props.user} 
                                                 handlePopupStatus={this.props.handlePopupStatus} handleResponses={this.handleResponses}
                                                 handleStages={this.handleStages} />}

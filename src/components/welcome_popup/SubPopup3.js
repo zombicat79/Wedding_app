@@ -5,7 +5,9 @@ import texts from './welcomepopup.texts';
 const SubPopup3 = (props) => {
     const handleSubmit = (event) => {
         event.preventDefault();
-        props.handleStages(1);
+        if (props.popupState.needsLodging) {
+            props.handleStages(1);
+        }
     }
     
     return (
