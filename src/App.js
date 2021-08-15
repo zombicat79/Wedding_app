@@ -99,6 +99,9 @@ class App extends React.Component {
       .then((loggedInUser) => {
         if (loggedInUser._id) {
           this.setState({ user: loggedInUser });
+          if (loggedInUser.logins >= 2) {
+            this.handlePopupStatus(false);
+          }
         }
         else {
           this.setState({ user: null });
@@ -159,8 +162,8 @@ class App extends React.Component {
                    popupIsActive={this.state.popupIsActive} handleCartStatus={this.handleCartStatus} handleCart={this.handleCart} 
                    handlePopupStatus={this.handlePopupStatus}/>} />
             <Route exact path="/info" render={(props) => <Info {...props} handleUsers={this.handleUsers} />} />
-            <Route exact path="/quiz" render={(props) => <Quiz {...props} state={this.state} />} />
-            <Route path="/ingame/:id" render={(props) => (<InGame {...props } toggleGame={this.handleGameStatus} />)} />
+            <Route exact path="/quiz" render={(props) => <Quiz {...props} state={this.state} handleUsers={this.handleUsers} />} />
+            <Route path="/ingame/:id" render={(props) => <InGame {...props } user={this.state.user} toggleGame={this.handleGameStatus} />} />
             <Route path="/gamestats/:id" render={(props) => <GameStats {...props} />} component={GameStats}/>
             <Route exact path="/market" render={(props) => <Market {...props} addToCart={this.addToCart} cartItems={this.state.cartItems} 
               updateProducts={this.updateProducts} products={this.state.availableProducts} user={this.state.user} />} />

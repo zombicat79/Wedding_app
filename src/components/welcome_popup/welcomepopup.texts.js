@@ -124,8 +124,8 @@ const texts = {
         eng: "Thanks a lot for the info."
     },
     endCue: {
-        cat: "A partir d'aquest moment, ja pots navegar lliurement per aquest aplicatiu i modificar les dades que ens has donat (així com moltes altres) editant el teu perfil personal. Bona exploració!",
-        esp: "A partir de este momento, ya puedes navegar libremente por este aplicativo y modificar los datos que nos has proporcionado (así como muchos otros) editando tu perfil personal. ¡Buena exploración!",
+        cat: "A partir d'aquest moment, ja pots navegar lliurement per aquesta aplicació i modificar les dades que ens has donat (així com moltes altres) editant el teu perfil personal. Bona exploració!",
+        esp: "A partir de este momento, ya puedes navegar libremente por esta aplicación y modificar los datos que nos has proporcionado (así como muchos otros) editando tu perfil personal. ¡Buena exploración!",
         eng: "From now on you can freely navigate this app and modify the data you've given us (along with some other items) by editing your personal profile. Feel free to explore!"
     },
     happyDismissal: {

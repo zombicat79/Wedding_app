@@ -1,7 +1,8 @@
 import React from 'react';
 import { Redirect, Link } from 'react-router-dom';
 
-import QuestionBody from './../../components/question_body/QuestionBody';
+import QuestionBody from '../../components/quiz_components/question_body/QuestionBody';
+import QuestionSelector from '../../components/quiz_components/question_selector/QuestionSelector';
 
 import questionsCat from './questions-cat.json';
 
@@ -23,20 +24,22 @@ const InGame = (props) => {
         console.log(fakeUsers)
     }
 
-
-    
     return (
         <main>
             <section>
-                <QuestionBody {...props} question={randomQuestion} updateUser={updateUser} />
+                {props.user.logins <= 2 && <QuestionSelector {...props} />}
+                {props.user.logins > 2 &&
                 <div>
-                    <button onClick={() => {
-                        props.toggleGame();
-                        props.history.goBack();
-                    }}>
-                    Ja en tinc prou
-                    </button>
-                </div>
+                    <QuestionBody {...props} question={randomQuestion} updateUser={updateUser} />
+                    <div>
+                        <button onClick={() => {
+                            props.toggleGame();
+                            props.history.goBack();
+                        }}>
+                        Ja en tinc prou
+                        </button>
+                    </div>
+                </div>}
             </section>
         </main>
     )

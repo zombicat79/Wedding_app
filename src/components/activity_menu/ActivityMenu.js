@@ -8,6 +8,8 @@ import FoodRequest from './../requests_components/food_request/FoodRequest';
 import AccomodationRequest from './../requests_components/accomodation_request/AccomodationRequest';
 import MusicRequest from './../requests_components/music_request/MusicRequest';
 
+import homeTexts from './../../pages/home/home.texts';
+
 class ActivityMenu extends React.Component {
     constructor(props) {
         super(props);
@@ -34,19 +36,21 @@ class ActivityMenu extends React.Component {
         <>
             {this.props.match.path === "/" && 
             <div>
-                <h2>Coses que pots fer abans del gran dia</h2>
+                <h3>{this.props.lang === "catalan" ? homeTexts.suggestion.cat : this.props.lang === "spanish" ? homeTexts.suggestion.esp : homeTexts.suggestion.eng}</h3>
                 {this.props.popupIsActive === true 
                 ?
                 <ul>
-                    <li><Link to="/requests"><button disabled>Proposa'ns</button></Link></li>
-                    <li><Link to="/market"><button disabled>Ajuda'ns</button></Link></li>
-                    <li><Link to="/quiz"><button disabled>Juga</button></Link></li>
+                    <li><Link to="/requests"><button disabled>{this.props.lang === "catalan" ? homeTexts.requestBtn.cat : this.props.lang === "spanish" ? homeTexts.requestBtn.esp : homeTexts.requestBtn.eng}</button></Link></li>
+                    <li><Link to="/market"><button disabled>{this.props.lang === "catalan" ? homeTexts.collaborateBtn.cat : this.props.lang === "spanish" ? homeTexts.collaborateBtn.esp : homeTexts.collaborateBtn.eng}</button></Link></li>
+                    <li><Link to="/quiz"><button disabled>{this.props.lang === "catalan" ? homeTexts.playBtn.cat : this.props.lang === "spanish" ? homeTexts.playBtn.esp : homeTexts.playBtn.eng}</button></Link></li>
+                    <li><Link to="/"><button disabled>{this.props.lang === "catalan" ? homeTexts.signBtn.cat : this.props.lang === "spanish" ? homeTexts.signBtn.esp : homeTexts.signBtn.eng}</button></Link></li>
                 </ul>
                 :
                 <ul>
-                    <li><Link to="/requests"><button>Proposa'ns</button></Link></li>
-                    <li><Link to="/market"><button>Ajuda'ns</button></Link></li>
-                    <li><Link to="/quiz"><button>Juga</button></Link></li>
+                    <li><Link to="/requests"><button>{this.props.lang === "catalan" ? homeTexts.requestBtn.cat : this.props.lang === "spanish" ? homeTexts.requestBtn.esp : homeTexts.requestBtn.eng}</button></Link></li>
+                    <li><Link to="/market"><button>{this.props.lang === "catalan" ? homeTexts.collaborateBtn.cat : this.props.lang === "spanish" ? homeTexts.collaborateBtn.esp : homeTexts.collaborateBtn.eng}</button></Link></li>
+                    <li><Link to="/quiz"><button>{this.props.lang === "catalan" ? homeTexts.playBtn.cat : this.props.lang === "spanish" ? homeTexts.playBtn.esp : homeTexts.playBtn.eng}</button></Link></li>
+                    <li><Link to="/"><button>{this.props.lang === "catalan" ? homeTexts.signBtn.cat : this.props.lang === "spanish" ? homeTexts.signBtn.esp : homeTexts.signBtn.eng}</button></Link></li>
                 </ul>}
             </div>}
             
