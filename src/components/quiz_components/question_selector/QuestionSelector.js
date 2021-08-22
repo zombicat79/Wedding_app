@@ -1,25 +1,33 @@
 import React from 'react';
 
+import userService from './../../../services/user-service';
+
 const QuestionSelector = (props) => {
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        props.history.replace("/requests") // Has to be replaced with the correct direction (ingame/user:id)
+    const handleSelection = (selection) => {
+        userService.updateUser(props.user._id, "questionPref", selection)
+            .then((updatedUser) => {
+                props.handleUsers(updatedUser)
+            })
+            .catch((err) => console.log(err));
+    }
+
+    const goToQuestions = () => {
+        props.history.replace(`/ingame/${props.user._id}`)
     }
     
     return (
         <div>
-            <form onSubmit={(e) => handleSubmit(e)}>
+            <div>
                 <label htmlFor="cris-select">Cristina</label>
-                <input id="cris-select" type="radio" name="questionSelector" value="cristina" />
+                <input id="cris-select" type="radio" name="questionSelector" onClick={() => handleSelection("Cristina")} />
                 
                 <label htmlFor="david-select">David</label>
-                <input id="david-select" type="radio" name="questionSelector" value="david" />
+                <input id="david-select" type="radio" name="questionSelector" onClick={() => handleSelection("David")} />
                 
                 <label htmlFor="both-select">Tots dos</label>
-                <input id="both-select" type="radio" name="questionSelector" value="both" />
-
-                <input type="submit" value="Confirma!" />
-            </form>
+                <input id="both-select" type="radio" name="questionSelector" onClick={() => handleSelection("both")} />
+            </div>
+            <button onClick={() => goToQuestions()}>Confirma!</button>       
         </div>
     )
 }

@@ -24,6 +24,8 @@ class App extends React.Component {
       user: null,
       popupIsActive: true,
       gameStatus: "new",
+      allQuestions: null,
+      allUsersList: null,
       rightAnswers: 2, // *** needs to be updated dynamically once the backend is created. ***
       points: 100, // *** needs to be updated dynamically once the backend is created. ***
       productsInCart: false, 
@@ -38,6 +40,8 @@ class App extends React.Component {
     this.updateProducts = this.updateProducts.bind(this);
     this.handleCart = this.handleCart.bind(this);
     this.handlePopupStatus = this.handlePopupStatus.bind(this);
+    this.handleQuestions = this.handleQuestions.bind(this);
+    this.handleUsersList = this.handleUsersList.bind(this);
   }
 
   handleUsers(loggedInUser) {
@@ -51,6 +55,14 @@ class App extends React.Component {
   handleGameStatus() {
     this.setState({ gameStatus: "finished"});
     setTimeout(() => this.setState({ gameStatus: "new"}), 10000);
+  }
+
+  handleQuestions(allQuestions) {
+    this.setState({ allQuestions: allQuestions });
+  }
+
+  handleUsersList(allUsers) {
+    this.setState({ allUsersList: allUsers })
   }
 
   handleCart(cartState) {
@@ -162,9 +174,11 @@ class App extends React.Component {
                    popupIsActive={this.state.popupIsActive} handleCartStatus={this.handleCartStatus} handleCart={this.handleCart} 
                    handlePopupStatus={this.handlePopupStatus}/>} />
             <Route exact path="/info" render={(props) => <Info {...props} handleUsers={this.handleUsers} />} />
-            <Route exact path="/quiz" render={(props) => <Quiz {...props} state={this.state} handleUsers={this.handleUsers} />} />
-            <Route path="/ingame/:id" render={(props) => <InGame {...props } user={this.state.user} toggleGame={this.handleGameStatus} />} />
-            <Route path="/gamestats/:id" render={(props) => <GameStats {...props} />} component={GameStats}/>
+            <Route exact path="/quiz" render={(props) => <Quiz {...props} state={this.state} handleUsers={this.handleUsers} 
+                   handleQuestions={this.handleQuestions} handleUsersList={this.handleUsersList} />} />
+            <Route path="/ingame/:id" render={(props) => <InGame {...props } user={this.state.user} handleUsers={this.handleUsers} toggleGame={this.handleGameStatus} 
+                   questions={this.state.allQuestions} userList={this.state.allUsersList} />} />
+            <Route path="/gamestats/:id" render={(props) => <GameStats {...props} />} />
             <Route exact path="/market" render={(props) => <Market {...props} addToCart={this.addToCart} cartItems={this.state.cartItems} 
               updateProducts={this.updateProducts} products={this.state.availableProducts} user={this.state.user} />} />
             <Route exact path="/checkout" render={(props) => <Checkout {...props} cartItems={this.state.cartItems} 

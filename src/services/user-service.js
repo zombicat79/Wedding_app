@@ -8,6 +8,12 @@ class UserService {
         })
     }
 
+    getAll() {
+        const pr = this.user.get("/getAll")
+            .then((response) => response.data);
+        return pr
+    }
+
     modifyCart(userId, cartState) {
         const pr = this.user.put(`${userId}/modifyCart`, { cartState })
             .then((response) => response.data);

@@ -2,12 +2,16 @@ import React from 'react';
 import { Link } from 'react-router-dom'
 import { LangContext } from './../../context/lang-context';
 import authService from './../../services/auth-service';
+import userService from './../../services/user-service';
+import questionService from './../../services/question-service';
 
 import texts from './quiz.texts';
 
 class Quiz extends React.Component {
     state = {
-        rulesIsActive: false
+        rulesIsActive: false,
+        questions: null,
+        allUsers: null,
     }
 
     handleRules = () => {
@@ -22,6 +26,18 @@ class Quiz extends React.Component {
             }
           })
           .catch((err) => console.log(err));
+
+        userService.getAll()
+            .then((allUsers) => {
+                this.props.handleUsersList(allUsers);
+            })
+            .catch((err) => console.log(err));
+
+        questionService.getAll()
+            .then((allQuestions) => {
+                this.props.handleQuestions(allQuestions);
+        })
+        .catch((err) => console.log(err));
     }
     
     render() {
