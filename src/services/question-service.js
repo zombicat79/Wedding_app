@@ -13,6 +13,12 @@ class QuestionService {
             .then((response) => response.data);
         return pr;
     }
+
+    getOne(questionId) {
+        const pr = this.question.get(`/getOne/${questionId}`)
+            .then((response) => response.data);
+        return pr;
+    }
 }
 
 const questionService = new QuestionService;
