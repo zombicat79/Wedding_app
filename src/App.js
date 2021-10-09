@@ -178,7 +178,7 @@ class App extends React.Component {
                    handleQuestions={this.handleQuestions} handleUsersList={this.handleUsersList} />} />
             <Route path="/ingame/:id" render={(props) => <InGame {...props } user={this.state.user} handleUsers={this.handleUsers} toggleGame={this.handleGameStatus} 
                    questions={this.state.allQuestions} userList={this.state.allUsersList} />} />
-            <Route path="/gamestats/:id" render={(props) => <GameStats {...props} user={this.state.user} userList={this.state.allUsersList} />} />
+            <Route path="/gamestats" render={(props) => <GameStats {...props} user={this.state.user} userList={this.state.allUsersList} handleUsers={this.handleUsers} />} />
             <Route exact path="/market" render={(props) => <Market {...props} addToCart={this.addToCart} cartItems={this.state.cartItems} 
               updateProducts={this.updateProducts} products={this.state.availableProducts} user={this.state.user} />} />
             <Route exact path="/checkout" render={(props) => <Checkout {...props} cartItems={this.state.cartItems} 

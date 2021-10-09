@@ -64,7 +64,7 @@ class Quiz extends React.Component {
                                                 <li>El premi serà entregat el dia del casament</li>
                                             </ul>
                                         }
-                                        <Link to={`/gamestats/${this.props.state.user._id}`}><button>{value.properties.language === "catalan" ? texts.statsBtn.cat : value.properties.language === "spanish" ? texts.statsBtn.esp : texts.statsBtn.eng}</button></Link>
+                                        <Link to={`/gamestats`}><button>{value.properties.language === "catalan" ? texts.statsBtn.cat : value.properties.language === "spanish" ? texts.statsBtn.esp : texts.statsBtn.eng}</button></Link>
                                         <Link to={`/ingame/${this.props.state.user._id}`}><button>{value.properties.language === "catalan" ? texts.startBtn.cat : value.properties.language === "spanish" ? texts.startBtn.esp : texts.startBtn.eng}</button></Link>
                                     </div>
                                 </section>
