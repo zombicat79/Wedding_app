@@ -16,6 +16,7 @@ import Requests from './pages/requests/Requests';
 import Checkout from './pages/checkout/Checkout';
 import Unlogged from './pages/unlogged/Unlogged';
 import Profile from './pages/profile/Profile';
+import { LangContext } from './context/lang-context';
 
 class App extends React.Component {
   constructor(props) {
@@ -26,8 +27,6 @@ class App extends React.Component {
       gameStatus: "new",
       allQuestions: null,
       allUsersList: null,
-      rightAnswers: 2, // *** needs to be updated dynamically once the backend is created. ***
-      points: 100, // *** needs to be updated dynamically once the backend is created. ***
       productsInCart: false, 
       availableProducts: [],
       cartItems: {} 
@@ -160,41 +159,47 @@ class App extends React.Component {
     console.log(this.state)
     
     return (
-      <>
-        {this.state.user && 
-        <header>
-          <nav>
-            <HeaderNavbar productsInCart={this.state.productsInCart} user={this.state.user} popupIsActive={this.state.popupIsActive} />
-          </nav>
-        </header>
-        }
-        <>
-          <Switch>
-            <Route exact path="/" render={(props) => <Main {...props} user={this.state.user} handleUsers={this.handleUsers} 
-                   popupIsActive={this.state.popupIsActive} handleCartStatus={this.handleCartStatus} handleCart={this.handleCart} 
-                   handlePopupStatus={this.handlePopupStatus}/>} />
-            <Route exact path="/info" render={(props) => <Info {...props} handleUsers={this.handleUsers} />} />
-            <Route exact path="/quiz" render={(props) => <Quiz {...props} state={this.state} handleUsers={this.handleUsers} 
-                   handleQuestions={this.handleQuestions} handleUsersList={this.handleUsersList} />} />
-            <Route path="/ingame/:id" render={(props) => <InGame {...props } user={this.state.user} handleUsers={this.handleUsers} toggleGame={this.handleGameStatus} 
-                   questions={this.state.allQuestions} userList={this.state.allUsersList} />} />
-            <Route path="/gamestats" render={(props) => <GameStats {...props} user={this.state.user} userList={this.state.allUsersList} handleUsers={this.handleUsers} />} />
-            <Route exact path="/market" render={(props) => <Market {...props} addToCart={this.addToCart} cartItems={this.state.cartItems} 
-              updateProducts={this.updateProducts} products={this.state.availableProducts} user={this.state.user} />} />
-            <Route exact path="/checkout" render={(props) => <Checkout {...props} cartItems={this.state.cartItems} 
-              addToCart={this.addToCart} removeFromCart={this.removeFromCart} products={this.state.availableProducts} updateProducts={this.updateProducts} />} />
-            <Route exact path="/requests" render={(props) => <Requests {...props} />} />
-            <Route path="/profile/:userId" render={(props) => <Profile {...props} user={this.state.user} handleUsers={this.handleUsers} />} />
-          </Switch>
-        </>
-        {this.state.user && 
-        <footer>
-          <nav>
-            <FooterNavbar popupIsActive={this.state.popupIsActive} />
-          </nav>
-        </footer>
-        }
-      </>
+      <LangContext.Consumer>
+        {(value) => {
+          return (
+            <>
+              {this.state.user && 
+              <header>
+                <nav>
+                  <HeaderNavbar productsInCart={this.state.productsInCart} user={this.state.user} popupIsActive={this.state.popupIsActive} />
+                </nav>
+              </header>
+              }
+              <React.Fragment>
+                <Switch>
+                  <Route exact path="/" render={(props) => <Main {...props} user={this.state.user} handleUsers={this.handleUsers} 
+                        popupIsActive={this.state.popupIsActive} handleCartStatus={this.handleCartStatus} handleCart={this.handleCart} 
+                        handlePopupStatus={this.handlePopupStatus}/>} />
+                  <Route exact path="/info" render={(props) => <Info {...props} handleUsers={this.handleUsers} />} />
+                  <Route exact path="/quiz" render={(props) => <Quiz {...props} state={this.state} handleUsers={this.handleUsers} 
+                        handleQuestions={this.handleQuestions} handleUsersList={this.handleUsersList} />} />
+                  <Route path="/ingame/:id" render={(props) => <InGame {...props } user={this.state.user} handleUsers={this.handleUsers} toggleGame={this.handleGameStatus} 
+                        questions={this.state.allQuestions} userList={this.state.allUsersList} />} />
+                  <Route path="/gamestats" render={(props) => <GameStats {...props} user={this.state.user} userList={this.state.allUsersList} language={value.properties.language} />} />
+                  <Route exact path="/market" render={(props) => <Market {...props} addToCart={this.addToCart} cartItems={this.state.cartItems} 
+                    updateProducts={this.updateProducts} products={this.state.availableProducts} user={this.state.user} />} />
+                  <Route exact path="/checkout" render={(props) => <Checkout {...props} cartItems={this.state.cartItems} 
+                    addToCart={this.addToCart} removeFromCart={this.removeFromCart} products={this.state.availableProducts} updateProducts={this.updateProducts} />} />
+                  <Route exact path="/requests" render={(props) => <Requests {...props} />} />
+                  <Route path="/profile/:userId" render={(props) => <Profile {...props} user={this.state.user} handleUsers={this.handleUsers} />} />
+                </Switch>
+              </React.Fragment>
+              {this.state.user && 
+              <footer>
+                <nav>
+                  <FooterNavbar popupIsActive={this.state.popupIsActive} />
+                </nav>
+              </footer>
+              }
+            </>            
+          )
+        }}
+      </LangContext.Consumer>
     )
   }
 }

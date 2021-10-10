@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+import texts from "./quiz.texts";
+
 class GameStats extends React.Component {
     state = {
         topPlayer: {_id: null, name: "", points: 0},
@@ -38,64 +40,106 @@ class GameStats extends React.Component {
                 return b.casualName-a.casualName;
             }
         })
-        
+
+        const userRanking = sortedUserList.findIndex((obj) => obj._id === this.props.user._id);
+
         return (
             <main>
                 <section>
-                    <h1>High score</h1>
+                    {/* RANKING BOARD MAIN TITLE */}
+                    <h1>{this.props.language === "catalan" ? texts.scoreMainTitle.cat : this.props.language === "spanish" ? texts.scoreMainTitle.esp : texts.scoreMainTitle.eng}</h1>
                 </section>
+                
                 <section>
+                    {/* USER RANKING MESSAGES */}
+                    {/* No scores message */}
                     { topPlayer.points === 0 &&
-                    <>
-                        <h2>Come on, {this.props.user.casualName}!</h2>
-                        <h2>Be the first to score!</h2>
-                    </>
+                    <div>
+                        <h2>{this.props.language === "catalan" ? texts.scoreMsgFresh1.cat : this.props.language === "spanish" ? texts.scoreMsgFresh1.esp : texts.scoreMsgFresh1.eng}, {this.props.user.casualName}!</h2>
+                        <h2>{this.props.language === "catalan" ? texts.scoreMsgFresh2.cat : this.props.language === "spanish" ? texts.scoreMsgFresh2.esp : texts.scoreMsgFresh2.eng}</h2>
+                    </div>
                     }
+                    {/* User ranks 30+ message */}
                     { topPlayer.name !== "" && topPlayer.name !== this.props.user.casualName &&
-                    <>
-                        <h1>Come on, {this.props.user.casualName}!</h1>
-                        <h2>You're not that far from {topPlayer.name}!</h2>
-                    </>
+                      userRanking > 30 &&
+                    <div>
+                        <h2>{this.props.language === "catalan" ? texts.scoreMsgAwful1.cat : this.props.language === "spanish" ? texts.scoreMsgAwful1.esp : texts.scoreMsgAwful1.eng}{this.props.user.casualName}!</h2>
+                        <h2>{this.props.language === "catalan" ? texts.scoreMsgAwful2.cat : this.props.language === "spanish" ? texts.scoreMsgAwful2.esp : texts.scoreMsgAwful2.eng} {topPlayer.name}. {this.props.language === "catalan" ? texts.scoreMsgAwful3.cat : this.props.language === "spanish" ? texts.scoreMsgAwful3.esp : texts.scoreMsgAwful3.eng}</h2>
+                    </div>
                     }
+                    {/* User ranks between 11 and 30 message */}
+                    { topPlayer.name !== "" && topPlayer.name !== this.props.user.casualName &&
+                      userRanking >= 10 && userRanking <= 30 &&
+                    <div>
+                        <h2>{this.props.language === "catalan" ? texts.scoreMsgFresh1.cat : this.props.language === "spanish" ? texts.scoreMsgFresh1.esp : texts.scoreMsgFresh1.eng}, {this.props.user.casualName}!</h2>
+                        <h2>{this.props.language === "catalan" ? texts.scoreMsgMedium.cat : this.props.language === "spanish" ? texts.scoreMsgMedium.esp : texts.scoreMsgMedium.eng} {topPlayer.name}!</h2>
+                    </div>
+                    }
+                    {/* User ranks amongst the 10 best message */}
+                    { topPlayer.name !== "" && topPlayer.name !== this.props.user.casualName && 
+                      userRanking >= 3 && userRanking < 10 &&
+                    <div>
+                        <h2>{this.props.language === "catalan" ? texts.scoreMsgTop1.cat : this.props.language === "spanish" ? texts.scoreMsgTop1.esp : texts.scoreMsgTop1.eng} {this.props.user.casualName}!</h2>
+                        <h2>{this.props.language === "catalan" ? texts.scoreMsgTop2.cat : this.props.language === "spanish" ? texts.scoreMsgTop2.esp : texts.scoreMsgTop2.eng}</h2>
+                    </div>
+                    }
+                    {/* User ranks in the top 3 message */}
+                    { topPlayer.name !== "" && topPlayer.name !== this.props.user.casualName && 
+                      userRanking < 3 &&
+                    <div>
+                        <h2>{this.props.language === "catalan" ? texts.scoreMsgTop1.cat : this.props.language === "spanish" ? texts.scoreMsgTop1.esp : texts.scoreMsgTop1.eng} {this.props.user.casualName}!</h2>
+                        <h2>{this.props.language === "catalan" ? texts.scoreMsgSupertop.cat : this.props.language === "spanish" ? texts.scoreMsgSupertop.esp : texts.scoreMsgSupertop.eng} {topPlayer.name}!</h2>
+                    </div>
+                    }
+                    {/* User ranks first message */}
                     { topPlayer.name === this.props.user.casualName &&
-                    <>
-                        <h1>Nice and sweet, {this.props.user.casualName}!</h1>
-                        <h2>You're on top of the world!</h2>
-                    </>
+                    <div>
+                        <h2>{this.props.language === "catalan" ? texts.scoreMsgBest1.cat : this.props.language === "spanish" ? texts.scoreMsgBest1.esp : texts.scoreMsgBest1.eng}, {this.props.user.casualName}!</h2>
+                        <h2>{this.props.language === "catalan" ? texts.scoreMsgBest2.cat : this.props.language === "spanish" ? texts.scoreMsgBest2.esp : texts.scoreMsgBest2.eng}</h2>
+                    </div>
                     }
                 </section>
+                
                 <section>
+                    {/* PLAYER RANKING */}
                     {
                         sortedUserList.map((oneUser, index) => {
                             if ((this.state.extendedList === false && index < 10) || this.state.extendedList === true) {
                                 if (oneUser._id === topPlayer._id) {
                                     return (<div key={oneUser.username}>
-                                        <h3>Name: {oneUser.casualName}</h3>
-                                        <h3>Right Answers: {oneUser.rightAnswers}</h3>
-                                        <h3>Points: {oneUser.points}</h3>
+                                        <h3>{index + 1}</h3>
+                                        <h4>{oneUser.casualName}</h4>
+                                        <h4>{oneUser.correctAnswers.total} {this.props.language === "catalan" ? texts.rightAnswersMsg.cat : this.props.language === "spanish" ? texts.rightAnswersMsg.esp : texts.rightAnswersMsg.eng}</h4>
+                                        <h4>{oneUser.points} {this.props.language === "catalan" ? texts.pointsMsg.cat : this.props.language === "spanish" ? texts.pointsMsg.esp : texts.pointsMsg.eng}</h4>
                                     </div>)
                                 }
                                 if (oneUser._id === this.props.user._id) {
                                     return (<div key={oneUser.username}>
-                                        <strong><p>Name: {oneUser.casualName}</p></strong>
-                                        <strong><p>Right Answers: {oneUser.rightAnswers}</p></strong>
-                                        <strong><p>Points: {oneUser.points}</p></strong>
+                                        <strong><h3>{index + 1}</h3></strong>
+                                        <strong><p>{oneUser.casualName}</p></strong>
+                                        <strong><p>{oneUser.correctAnswers.total} {this.props.language === "catalan" ? texts.rightAnswersMsg.cat : this.props.language === "spanish" ? texts.rightAnswersMsg.esp : texts.rightAnswersMsg.eng}</p></strong>
+                                        <strong><p>{oneUser.points} {this.props.language === "catalan" ? texts.pointsMsg.cat : this.props.language === "spanish" ? texts.pointsMsg.esp : texts.pointsMsg.eng}</p></strong>
                                     </div>)
                                 }
                                 else {
                                     return (<div key={oneUser.username}>
-                                        <p>Name: {oneUser.casualName}</p>
-                                        <p>Right Answers: {oneUser.rightAnswers}</p>
-                                        <p>Points: {oneUser.points}</p>  
+                                        <p>{index + 1}</p>
+                                        <p>{oneUser.casualName}</p>
+                                        <p>{oneUser.correctAnswers.total} {this.props.language === "catalan" ? texts.rightAnswersMsg.cat : this.props.language === "spanish" ? texts.rightAnswersMsg.esp : texts.rightAnswersMsg.eng}</p>
+                                        <p>{oneUser.points} {this.props.language === "catalan" ? texts.pointsMsg.cat : this.props.language === "spanish" ? texts.pointsMsg.esp : texts.pointsMsg.eng}</p>  
                                     </div>)
                                 }
                             }
                         })
                     }
+                </section>
+                
+                <section>
+                    {/* NAV BUTTONS */}
                     <div>
-                        {!this.state.extendedList && <button onClick={() => this.toggleListFormat()}>Show more</button>}
-                        {this.state.extendedList && <button onClick={() => this.toggleListFormat()}>Show less</button>}
-                        <Link to="/quiz" ><button>Back to game</button></Link>
+                        {!this.state.extendedList && <button onClick={() => this.toggleListFormat()}>{this.props.language === "catalan" ? texts.rankingBtnMore.cat : this.props.language === "spanish" ? texts.rankingBtnMore.esp : texts.rankingBtnMore.eng}</button>}
+                        {this.state.extendedList && <button onClick={() => this.toggleListFormat()}>{this.props.language === "catalan" ? texts.rankingBtnLess.cat : this.props.language === "spanish" ? texts.rankingBtnLess.esp : texts.rankingBtnLess.eng}</button>}
+                        <Link to="/quiz" ><button>{this.props.language === "catalan" ? texts.rankingBtnBack.cat : this.props.language === "spanish" ? texts.rankingBtnBack.esp : texts.rankingBtnBack.eng}</button></Link>
                     </div>
                 </section>
             </main>

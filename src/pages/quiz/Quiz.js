@@ -54,14 +54,15 @@ class Quiz extends React.Component {
                                         <h2>{value.properties.language === "catalan" ? texts.playInvitation.cat : value.properties.language === "spanish" ? texts.playInvitation.esp : texts.playInvitation.eng}</h2>
                                     </div>
                                     <div>
-                                        <button onClick={() => this.handleRules()}>{value.properties.language === "catalan" ? texts.ruleBtn.cat : value.properties.language === "spanish" ? texts.ruleBtn.esp : texts.ruleBtn.eng}</button>
+                                        { !this.state.rulesIsActive && <button onClick={() => this.handleRules()}>{value.properties.language === "catalan" ? texts.ruleBtnOff.cat : value.properties.language === "spanish" ? texts.ruleBtnOff.esp : texts.ruleBtnOff.eng}</button> }
+                                        { this.state.rulesIsActive && <button onClick={() => this.handleRules()}>{value.properties.language === "catalan" ? texts.ruleBtnOn.cat : value.properties.language === "spanish" ? texts.ruleBtnOn.esp : texts.ruleBtnOn.eng}</button> }
                                         { this.state.rulesIsActive &&
                                             <ul>
-                                                <li>El joc consisteix en una sèrie de preguntes sobre els nuvis, puntuades segons grau de dificultat</li>
-                                                <li>Les respostes incorrectes, resten puntuació. Existeix l'opció de passar.</li>
-                                                <li>Abans de començar el joc hi haurà l'opció de jugar amb preguntes relatives a un dels nuvis o tots dos. Escollir aquesta via atorga puntuacions més altes per respostes correctes. No es pot canviar.</li>
-                                                <li>El guanyador serà aquella persona que hagi acumulat una puntuació més alta en data del casament</li>
-                                                <li>El premi serà entregat el dia del casament</li>
+                                                <li>{value.properties.language === "catalan" ? texts.gameRule1.cat : value.properties.language === "spanish" ? texts.gameRule1.esp : texts.gameRule1.eng}</li>
+                                                <li>{value.properties.language === "catalan" ? texts.gameRule2.cat : value.properties.language === "spanish" ? texts.gameRule2.esp : texts.gameRule2.eng}</li>
+                                                <li>{value.properties.language === "catalan" ? texts.gameRule3.cat : value.properties.language === "spanish" ? texts.gameRule3.esp : texts.gameRule3.eng}</li>
+                                                <li>{value.properties.language === "catalan" ? texts.gameRule4.cat : value.properties.language === "spanish" ? texts.gameRule4.esp : texts.gameRule4.eng}</li>
+                                                <li>{value.properties.language === "catalan" ? texts.gameRule5.cat : value.properties.language === "spanish" ? texts.gameRule5.esp : texts.gameRule5.eng}</li>
                                             </ul>
                                         }
                                         <Link to={`/gamestats`}><button>{value.properties.language === "catalan" ? texts.statsBtn.cat : value.properties.language === "spanish" ? texts.statsBtn.esp : texts.statsBtn.eng}</button></Link>
