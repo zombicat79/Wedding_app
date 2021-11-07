@@ -108,7 +108,7 @@ class GameStats extends React.Component {
                                 if (oneUser._id === topPlayer._id) {
                                     return (<div key={oneUser.username}>
                                         <h3>{index + 1}</h3>
-                                        <h4>{oneUser.casualName}</h4>
+                                        <h4>{oneUser.casualName} {oneUser.lastName}</h4>
                                         <h4>{oneUser.correctAnswers.total} {this.props.language === "catalan" ? texts.rightAnswersMsg.cat : this.props.language === "spanish" ? texts.rightAnswersMsg.esp : texts.rightAnswersMsg.eng}</h4>
                                         <h4>{oneUser.points} {this.props.language === "catalan" ? texts.pointsMsg.cat : this.props.language === "spanish" ? texts.pointsMsg.esp : texts.pointsMsg.eng}</h4>
                                     </div>)
@@ -116,7 +116,7 @@ class GameStats extends React.Component {
                                 if (oneUser._id === this.props.user._id) {
                                     return (<div key={oneUser.username}>
                                         <strong><h3>{index + 1}</h3></strong>
-                                        <strong><p>{oneUser.casualName}</p></strong>
+                                        <strong><p>{oneUser.casualName} {oneUser.lastName}</p></strong>
                                         <strong><p>{oneUser.correctAnswers.total} {this.props.language === "catalan" ? texts.rightAnswersMsg.cat : this.props.language === "spanish" ? texts.rightAnswersMsg.esp : texts.rightAnswersMsg.eng}</p></strong>
                                         <strong><p>{oneUser.points} {this.props.language === "catalan" ? texts.pointsMsg.cat : this.props.language === "spanish" ? texts.pointsMsg.esp : texts.pointsMsg.eng}</p></strong>
                                     </div>)
@@ -124,7 +124,7 @@ class GameStats extends React.Component {
                                 else {
                                     return (<div key={oneUser.username}>
                                         <p>{index + 1}</p>
-                                        <p>{oneUser.casualName}</p>
+                                        <p>{oneUser.casualName} {oneUser.lastName}</p>
                                         <p>{oneUser.correctAnswers.total} {this.props.language === "catalan" ? texts.rightAnswersMsg.cat : this.props.language === "spanish" ? texts.rightAnswersMsg.esp : texts.rightAnswersMsg.eng}</p>
                                         <p>{oneUser.points} {this.props.language === "catalan" ? texts.pointsMsg.cat : this.props.language === "spanish" ? texts.pointsMsg.esp : texts.pointsMsg.eng}</p>  
                                     </div>)
