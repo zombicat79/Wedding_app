@@ -66,13 +66,13 @@ class Quiz extends React.Component {
                                             </ul>
                                         }
                                         <Link to={`/gamestats`}><button>{value.properties.language === "catalan" ? texts.statsBtn.cat : value.properties.language === "spanish" ? texts.statsBtn.esp : texts.statsBtn.eng}</button></Link>
-                                        <Link to={`/ingame/${this.props.state.user._id}`}><button>{value.properties.language === "catalan" ? texts.startBtn.cat : value.properties.language === "spanish" ? texts.startBtn.esp : texts.startBtn.eng}</button></Link>
+                                        <Link to={`/ingame/${this.props.state.user._id}`}><button onClick={() => this.props.handlePartials("reset")}>{value.properties.language === "catalan" ? texts.startBtn.cat : value.properties.language === "spanish" ? texts.startBtn.esp : texts.startBtn.eng}</button></Link>
                                     </div>
                                 </section>
                                 }
                                 {this.props.state.gameStatus === "finished" &&
                                     <div>
-                                        <p>{`Molt bé! Has encertat ${this.props.state.rightAnswers} preguntes i has guanyat ${this.props.state.points} punts!`}</p>
+                                        <p>{`Molt bé! Has encertat ${this.props.state.partialWins.answers} preguntes i has guanyat ${this.props.state.partialWins.points} punts!`}</p>
                                     </div>
                                 }
                         </main>

@@ -7,7 +7,9 @@ class QuestionBody extends React.Component {
     state = {
         user: null,
         question: null,
-        playerAnswer: ""
+        gotAnswer: false,
+        playerAnswer: "",
+        answerResult: "none"
     }
 
     handleChoice = (event) => {
@@ -24,12 +26,22 @@ class QuestionBody extends React.Component {
                     const pointsUpdate = this.state.user.points + data.points;
                     const pr1 = userService.updateUser(this.state.user._id, "points", pointsUpdate);
                     const pr2 = userService.updateUser(this.state.user._id, "correctAnswers", data._id);
+                    this.props.handlePartials("update", 1, data.points);
+                    this.setState({ gotAnswer: true, answerResult: "correct" });
+                    setTimeout(() => {
+                        this.setState({ gotAnswer: false, answerResult: "none" });
+                    }, 3000);
                     return Promise.all([pr1, pr2]);
                 }
                 else {
                     const pointsUpdate = this.state.user.points - data.penalty;
                     const pr1 = userService.updateUser(this.state.user._id, "points", pointsUpdate);
                     const pr2 = userService.updateUser(this.state.user._id, "wrongAnswers", data._id);
+                    this.props.handlePartials("update", 0, -(data.penalty));
+                    this.setState({ gotAnswer: true, answerResult: "incorrect" });
+                    setTimeout(() => {
+                        this.setState({ gotAnswer: false, answerResult: "none" })
+                    }, 3000);
                     return Promise.all([pr1, pr2]);
                 }
             })
@@ -45,11 +57,15 @@ class QuestionBody extends React.Component {
                     if (userResponse[1].correctAnswers.questions.includes(newQuestion._id) || userResponse[1].wrongAnswers.questions.includes(newQuestion._id)) {
                         return userService.updateUser(this.state.user._id, "remainingQuestions", false)
                             .then((updatedUser) => {
-                                this.setState({ question: null });
+                                setTimeout(() => {
+                                    this.setState({ question: null })
+                                }, 3000);
                             })
                     }
                     else {
-                        this.setState({ question: newQuestion })
+                        setTimeout(() => {
+                            this.setState({ question: newQuestion })
+                        }, 3000)
                     }
                 }
                 else if (userResponse[1].correctAnswers.questions) {
@@ -61,11 +77,15 @@ class QuestionBody extends React.Component {
                     if (userResponse[1].correctAnswers.questions.includes(newQuestion._id)) {
                         return userService.updateUser(this.state.user._id, "remainingQuestions", false)
                             .then((updatedUser) => {
-                                this.setState({ question: null });
+                                setTimeout(() => {
+                                    this.setState({ question: null })
+                                }, 3000);
                             })
                     }
                     else {
-                        this.setState({ question: newQuestion })
+                        setTimeout(() => {
+                            this.setState({ question: newQuestion })
+                        }, 3000)
                     }
                 }
                 else if (userResponse[1].wrongAnswers.questions) {
@@ -77,16 +97,22 @@ class QuestionBody extends React.Component {
                     if (userResponse[1].wrongAnswers.questions.includes(newQuestion._id)) {
                         return userService.updateUser(this.state.user._id, "remainingQuestions", false)
                             .then((updatedUser) => {
-                                this.setState({ question: null });
+                                setTimeout(() => {
+                                    this.setState({ question: null })
+                                }, 3000);
                             })
                     }
                     else {
-                        this.setState({ question: newQuestion })
+                        setTimeout(() => {
+                            this.setState({ question: newQuestion })
+                        }, 3000)
                     }
                 }
                 else {
-                    this.setState({ question: newQuestion })
-                }
+                    setTimeout(() => {
+                        this.setState({ question: newQuestion })
+                    }, 3000)
+                }       
             })
             .catch((err) => console.log(err));
     }
@@ -119,7 +145,7 @@ class QuestionBody extends React.Component {
         return (
             <div>
                 <h1>This is the game</h1>
-                {this.state.question !== null && 
+                {this.state.question !== null && this.state.answerResult === "none" &&
                 <div>
                     <p>{this.props.language === "catalan" ? this.state.question.body.cat : this.props.language === "spanish" ? this.state.question.body.esp : this.state.question.body.eng}</p>
                     <form onSubmit={(e) => this.handleSubmit(e)}>
@@ -142,6 +168,12 @@ class QuestionBody extends React.Component {
                     </form>
                     <button onClick={() => this.setState({ question: this.props.getQuestion() })}>Pasapalabra</button>
                 </div>
+                }
+                {this.state.gotAnswer === true && this.state.answerResult === "correct" &&
+                    <p>Molt bé! {this.state.question.points} punts més al sarró!</p>
+                }
+                {this.state.gotAnswer === true && this.state.answerResult === "incorrect" &&
+                    <p>L'has cagat! {this.state.question.penalty} punts a prendre pel sac!</p>
                 }
                 {this.state.question === null &&
                     <p>No queden més preguntes</p>

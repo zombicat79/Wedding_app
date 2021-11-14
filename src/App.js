@@ -29,7 +29,11 @@ class App extends React.Component {
       allUsersList: null,
       productsInCart: false, 
       availableProducts: [],
-      cartItems: {} 
+      cartItems: {},
+      partialWins: {
+        answers: 0,
+        points: 0
+      }
     }
     this.handleUsers = this.handleUsers.bind(this);
     this.handleGameStatus = this.handleGameStatus.bind(this);
@@ -54,6 +58,17 @@ class App extends React.Component {
   handleGameStatus() {
     this.setState({ gameStatus: "finished"});
     setTimeout(() => this.setState({ gameStatus: "new"}), 10000);
+  }
+
+  handlePartialWins = (mode, answers, points) => {
+    if (mode === "reset") {
+      this.setState({ partialWins: {answers: 0, points: 0} })
+    }
+    else {
+      this.setState((prevState) => {
+        return { partialWins: {answers: prevState.partialWins.answers + answers, points: prevState.partialWins.points + points} }
+      })
+    }
   }
 
   handleQuestions(allQuestions) {
@@ -177,9 +192,9 @@ class App extends React.Component {
                         handlePopupStatus={this.handlePopupStatus}/>} />
                   <Route exact path="/info" render={(props) => <Info {...props} handleUsers={this.handleUsers} />} />
                   <Route exact path="/quiz" render={(props) => <Quiz {...props} state={this.state} handleUsers={this.handleUsers} 
-                        handleQuestions={this.handleQuestions} handleUsersList={this.handleUsersList} />} />
+                        handleQuestions={this.handleQuestions} handleUsersList={this.handleUsersList} handlePartials={this.handlePartialWins} />} />
                   <Route path="/ingame/:id" render={(props) => <InGame {...props } user={this.state.user} handleUsers={this.handleUsers} toggleGame={this.handleGameStatus} 
-                        questions={this.state.allQuestions} userList={this.state.allUsersList} />} />
+                         handlePartials={this.handlePartialWins} questions={this.state.allQuestions} userList={this.state.allUsersList} />} />
                   <Route path="/gamestats" render={(props) => <GameStats {...props} user={this.state.user} userList={this.state.allUsersList} language={value.properties.language} />} />
                   <Route exact path="/market" render={(props) => <Market {...props} addToCart={this.addToCart} cartItems={this.state.cartItems} 
                     updateProducts={this.updateProducts} products={this.state.availableProducts} user={this.state.user} />} />

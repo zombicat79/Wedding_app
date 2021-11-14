@@ -29,7 +29,8 @@ const InGame = (props) => {
                             {!props.user.questionPref && <QuestionSelector {...props} handleUsers={props.handleUsers} />}
                             {props.user.questionPref &&
                             <div>
-                                <QuestionBody {...props} getQuestion={getRandomQuestion} language={value.properties.language} />
+                                <QuestionBody {...props} getQuestion={getRandomQuestion} language={value.properties.language} 
+                                              handlePartials={props.handlePartials} />
                                 <div>
                                     <button onClick={() => {
                                         props.toggleGame();
